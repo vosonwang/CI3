@@ -1,5 +1,5 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class index extends CI_Controller{
+<?php  defined('BASEPATH') OR exit('No direct script access allowed');
+class index extends Controller{
     // 构造方法
     function __construct()
     {
@@ -7,8 +7,8 @@ class index extends CI_Controller{
     }
 
     public  function  index(){
+        $this -> load -> view('templates/nav');
         $this -> load -> view('templates/header');
-        $this -> load -> view('index');
     }
 
 }

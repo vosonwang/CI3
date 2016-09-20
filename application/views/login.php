@@ -42,4 +42,4 @@
 </div>
 
 
-<script src="public/viewmodel/login.js"></script>
+<script src="public/vm/login.js"></script>

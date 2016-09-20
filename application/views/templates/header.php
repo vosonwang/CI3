@@ -9,10 +9,10 @@
     <link href="public/css/index.css" rel="stylesheet">
 
     <!--favicon-->
-    <link href="public/img/favicon.ico" mce_href="public/img/favicon.ico" rel="bookmark" type="image/x-icon" />
-    <link href="public/img/favicon.ico" mce_href="public/img/favicon.ico" rel="icon" type="image/x-icon" />
-    <link href="public/img/favicon.ico" mce_href="public/img/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    
+    <link href="public/img/favicon.ico" mce_href="public/img/favicon.ico" rel="bookmark" type="image/x-icon"/>
+    <link href="public/img/favicon.ico" mce_href="public/img/favicon.ico" rel="icon" type="image/x-icon"/>
+    <link href="public/img/favicon.ico" mce_href="public/img/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+
     <script src="public/vendor/jquery.min.js"></script>
     <script src="public/vendor/bootstrap.min.js"></script>
     <script src="public/vendor/toastr.min.js"></script>

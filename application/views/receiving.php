@@ -104,6 +104,6 @@
 </div>
 
 
-<script src="public/viewmodel/receiving.js"></script>
+<script src="public/vm/receiving.js"></script>
 
 </body>

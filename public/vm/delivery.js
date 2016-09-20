@@ -5,7 +5,7 @@ $(function () {
 
 
     var vue = new Vue({
-        el: '#finishing',
+        el: '#delivery',
         data: {
             id: "",               //每条发货记录在数据库中的Id
             row: "",              //用户输入的增加行数

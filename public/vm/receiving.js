@@ -47,10 +47,10 @@ $(function () {
 
             delete:function () {
                 var _self = this;
-                if (_self.id != "") {
+                if (typeof(del_records) != 'undefined') {
                     $.ajax({
                         type: 'POST',
-                        url: '../controller/receiving/delete.php',
+                        url: 'receiving/delete',
                         data: {id: this.del_records},
                         success: function (msg) {
                             _self.show();
@@ -58,6 +58,8 @@ $(function () {
                             _self.id=""
                         }
                     })
+                }else {
+                    toastr.info('请选择要删除的记录！')
                 }
             },
             

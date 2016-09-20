@@ -1,5 +1,5 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Login extends CI_Controller {
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+class Login extends Controller {
     // 构造方法
     function __construct() {
         parent::__construct();
@@ -19,12 +19,9 @@ class Login extends CI_Controller {
         if ($user) {
             // 如果此用户存在
             if (password_verify($_POST['password'],$user[0] -> password)) {
-                // 如果提交的密码与正确密码一致，则创建session
-                $msg=[1,"window.location.href='receiving'"];
-                $arr = array('s_id' => $user[0] -> id);
-                // 把用户ID存入数组
-                $this -> session -> set_userdata($arr);
-                //设置session
+                $_SESSION['is_login']=1;
+                $_SESSION['user_name']=$user[0]->user_name;
+                $msg=[1,"window.location.href='index'"];
         } else {
                 $msg=[0,"密码错误！"];
             }
@@ -36,21 +33,10 @@ class Login extends CI_Controller {
         echo $msg;
     }
 
-    function is_login() {
-
-        if ($this -> session -> userdata('s_id')) {
-            // 如果能取得这个ID的session，就意味着处于登录状态
-            echo "$_SESSION";
-        } else {
-            echo "no login";
-        }
-    }
 
     function logout() {
 
-        // 载入CI的session库
-        $this -> session -> unset_userdata('s_id');
-        // 删除此ID是session
+        session_destroy();
     }
 
 }
