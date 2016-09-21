@@ -13,20 +13,20 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">用户名</label>
                     <div class="col-sm-7">
-                        <input type="text" class="form-control text-left" v-model="userinfo.login_name" >
+                        <input type="text" class="form-control text-left" v-model="userinfo.login_name" name="login_name">
                     </div>
                 </div>
                 <div class="form-group">
                     <label  class="col-sm-3 control-label">密码</label>
                     <div class="col-sm-7">
-                        <input type="password" class="form-control text-left" v-model="userinfo.password" autocomplete="off">
+                        <input type="password" class="form-control text-left" v-model="userinfo.password" name="password">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-5">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" class="left"> 记住这台电脑
+                                <input class="left" type="checkbox"  @click="remeber" name="checkbox"> 记住这台电脑
                             </label>
                         </div>
                     </div>
@@ -43,3 +43,7 @@
 
 
 <script src="public/vm/login.js"></script>
+
+<script src="http://cdn.bootcss.com/crypto-js/3.1.2/components/core-min.js"></script>
+<script src="http://cdn.bootcss.com/crypto-js/3.1.2/rollups/aes.js"></script>
+<script src="public/js/cryptojs_aes.js"></script>
