@@ -1,5 +1,5 @@
 <title>后道厂收货记录</title>
-<body style="font-family: 微软雅黑,Arial">
+<body style="font-family: 微软雅黑,Arial,宋体">
 <div class="container" id="receiving">
     <div class="row">
         &nbsp;
@@ -55,7 +55,7 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="gridSystemModalLabel">Modal title</h4>
+                    <h4 class="modal-title" id="gridSystemModalLabel">收货</h4>
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
@@ -80,11 +80,32 @@
                                             <input class="addRow" disabled="disabled" value={{index+1}}>
                                         </td>
                                         <td><input class="addRow" v-model="item.receipt_date"></td>
-                                        <td><input class="addRow" type="text" v-model="item.order_no"></td>
-                                        <td><input class="addRow" type="number" v-model="item.pattern"></td>
+                                        <td>
+                                            <input class="addRow" type="text" v-model="item.order_no" list="orders" @click="getRecords('order')" @change="getRecordId(index,$event,'order')" name="ord{{index}}">
+                                            <datalist id="orders" >
+                                                <template v-for="item in orders">
+                                                    <option value={{item.order_no}} name={{item.id}}>
+                                                </template>
+                                            </datalist>
+                                        </td>
+                                        <td>
+                                            <input class="addRow" type="text" v-model="item.pattern" list="patterns" @click="getRecords('pattern')" @change="getRecordId(index,$event,'pattern')" name="pat{{index}}">
+                                            <datalist id="patterns" >
+                                                <template v-for="item in patterns">
+                                                    <option value={{item.pattern}} name={{item.id}}>
+                                                </template>
+                                            </datalist>
+                                        </td>
                                         <td><input class="addRow" type="number" v-model="item.pieces"></td>
-                                        <td><input class="addRow" type="text" v-model="item.trips"></td>
-                                        <td><input class="addRow" type="text" v-model="item.user_name"></td>
+                                        <td><input class="addRow" type="number" v-model="item.trips"></td>
+                                        <td>
+                                            <input class="addRow" type="text" v-model="item.user_name" list="users" @click="getRecords('user')" @change="getRecordId(index,$event,'user')" name="user{{index}}">
+                                            <datalist id="users" >
+                                                <template v-for="item in users">
+                                                    <option value={{item.user_name}} name={{item.user_id}}>
+                                                </template>
+                                            </datalist>
+                                        </td>
                                     </tr>
                                 </template>
                                 </tbody>

@@ -1,10 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 class Login extends Controller {
-    // 构造方法
-    function __construct() {
-        parent::__construct();
-    }
-
 
     public  function  index(){
         $this -> load -> view('templates/header');
@@ -13,7 +8,7 @@ class Login extends Controller {
 
     function check() {
         // 载入CI的session库
-        $this -> load -> model('User');
+        $this -> load -> model('User_model');
         $user = $this -> User -> u_select($_POST['login_name']);
         //调用User_test模型的u_select方法查询提交的用户名的信息
         if ($user) {

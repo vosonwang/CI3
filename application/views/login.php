@@ -19,7 +19,7 @@
                 <div class="form-group">
                     <label  class="col-sm-3 control-label">密码</label>
                     <div class="col-sm-7">
-                        <input type="password" class="form-control text-left" v-model="userinfo.password" name="password">
+                        <input type="password" class="form-control text-left" v-model="userinfo.password" name="password" autocomplete="off">
                     </div>
                 </div>
                 <div class="form-group">

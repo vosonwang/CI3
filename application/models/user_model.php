@@ -6,12 +6,12 @@
  * Time: 10:15
  */
 
-    class User extends CI_Model{
+    class User_model extends CI_Model{
 
-        function __construct()
-        {
-            parent::__construct();
-            $this->load->database();
+        function show(){
+            $this -> db -> select('user_id,user_name');
+            $query = $this -> db -> get('v_user_detail');
+            return $query -> result();
         }
 
         function u_insert($arr) {
