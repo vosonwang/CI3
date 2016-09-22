@@ -9,6 +9,7 @@ $(function () {
             userinfo: {}
         },
         ready:function(){
+            //判断是否记住用户信息
             if(localStorage.is_remeber){
                 this.is_remeber=localStorage.is_remeber;
                 this.userinfo.login_name=localStorage.login_name;
@@ -44,6 +45,8 @@ $(function () {
                     })
                 }
             },
+
+            //判断是否记住用户信息
             remeber:function () {
                 if($("[name='checkbox']").prop("checked")){
                     var _self = this;

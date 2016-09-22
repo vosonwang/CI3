@@ -81,26 +81,32 @@
                                         </td>
                                         <td><input class="addRow" v-model="item.receipt_date"></td>
                                         <td>
-                                            <input class="addRow" type="text" v-model="item.order_no" list="orders" @click="getRecords('order')" @change="getRecordId(index,$event,'order')" name="ord{{index}}">
-                                            <datalist id="orders" >
+                                            <input class="addRow" type="text" v-model="item.order_no" list="orders"
+                                                   @click="getRecords('order')"
+                                                   @change="getRecordId(index,$event,'order')" name="ord{{index}}">
+                                            <datalist id="orders">
                                                 <template v-for="item in orders">
                                                     <option value={{item.order_no}} name={{item.id}}>
                                                 </template>
                                             </datalist>
                                         </td>
                                         <td>
-                                            <input class="addRow" type="text" v-model="item.pattern" list="patterns" @click="getRecords('pattern')" @change="getRecordId(index,$event,'pattern')" name="pat{{index}}">
-                                            <datalist id="patterns" >
+                                            <input class="addRow" type="text" v-model="item.pattern" list="patterns"
+                                                   @click="getRecords('pattern')"
+                                                   @change="getRecordId(index,$event,'pattern')" name="pat{{index}}">
+                                            <datalist id="patterns">
                                                 <template v-for="item in patterns">
                                                     <option value={{item.pattern}} name={{item.id}}>
                                                 </template>
                                             </datalist>
                                         </td>
-                                        <td><input class="addRow" type="number" v-model="item.pieces"></td>
-                                        <td><input class="addRow" type="number" v-model="item.trips"></td>
+                                        <td><input class="addRow" type="number" v-model="item.pieces" ></td>
+                                        <td><input class="addRow" type="number" v-model="item.trips" ></td>
                                         <td>
-                                            <input class="addRow" type="text" v-model="item.user_name" list="users" @click="getRecords('user')" @change="getRecordId(index,$event,'user')" name="user{{index}}">
-                                            <datalist id="users" >
+                                            <input class="addRow" type="text" v-model="item.user_name" list="users"
+                                                   @click="getRecords('user')"
+                                                   @change="getRecordId(index,$event,'user')" name="user{{index}}">
+                                            <datalist id="users">
                                                 <template v-for="item in users">
                                                     <option value={{item.user_name}} name={{item.user_id}}>
                                                 </template>
@@ -115,8 +121,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" @click="insert">Save changes</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" @click="insert">确认</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

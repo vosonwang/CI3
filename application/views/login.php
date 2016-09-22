@@ -1,24 +1,19 @@
 <title>登陆</title>
 
 <div class="container">
+    <div style="margin-bottom: 20px">&nbsp;</div>
     <div class="row">
-        <div class="col-sm-offset-4 col-sm-2">
-            &nbsp;<br>
-            &nbsp;<br>
-            &nbsp;<br>
-            &nbsp;<br>
-        </div>
         <div class="col-md-offset-4 col-md-4" id="login">
             <form class="form-horizontal" @submit.prevent>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">用户名</label>
-                    <div class="col-sm-7">
+                    <label class="col-sm-3 col-xs-12 control-label">用户名</label>
+                    <div class="col-sm-7 col-xs-12">
                         <input type="text" class="form-control text-left" v-model="userinfo.login_name" name="login_name">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label  class="col-sm-3 control-label">密码</label>
-                    <div class="col-sm-7">
+                    <label  class="col-sm-3 col-xs-12 control-label">密码</label>
+                    <div class="col-sm-7 col-xs-12">
                         <input type="password" class="form-control text-left" v-model="userinfo.password" name="password" autocomplete="off">
                     </div>
                 </div>

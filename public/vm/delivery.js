@@ -36,25 +36,20 @@ $(function () {
             insert: function () {
                 var _self = this;
 
-                //new_deliveries是一个数组,其中的元素都是对象
-                //这步是过滤用户输入的""
-                this.new_deliveries = this.new_deliveries.filter(function (item) {
+                //new_records是一个数组,其中的元素都是对象
+                //1.过滤用户输入的""， 2. 过滤空的行
+                var temp = this.new_records.filter(function (item) {
                     for (var obj in item) {
                         if (item[obj] == '') {
                             delete item[obj];
                         }
                     }
-                    return item;
-                });
-
-                //这步是过滤空的行
-                $.each(_self.new_deliveries, function (index, value) {
-                    if (objLength(value) == 0) {
-                        _self.new_deliveries.$remove(this);
+                    if(objLength(item)!=0){
+                        return item;
                     }
                 });
 
-                if (_self.new_deliveries.length != 0) {
+                if (temp!= 0) {
                     json = JSON.stringify(_self.new_deliveries);
                     $.ajax({
                         type: 'POST',

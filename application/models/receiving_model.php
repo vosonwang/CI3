@@ -12,4 +12,8 @@ class Receiving_model extends CI_Model{
         $query = $this -> db -> get('v_receiving');
         return $query -> result();
     }
+
+    function insert(){
+
+    }
 }

@@ -82,33 +82,22 @@ $(function () {
             insert: function () {
                 var _self = this;
 
-                //new_deliveries是一个数组,其中的元素都是对象
-                //这步是过滤用户输入的""
-                this.new_records = this.new_records.filter(function (item) {
+                //new_records是一个数组,其中的元素都是对象
+                //1.过滤用户输入的""， 2. 过滤空的行
+                var temp = this.new_records.filter(function (item) {
                     for (var obj in item) {
                         if (item[obj] == '') {
                             delete item[obj];
                         }
                     }
-                    return item;
-                });
-
-                //这步是过滤空的行
-                var arr=[];
-                $.each(_self.new_records, function (index, value) {
-                    if (objLength(value) == 0) {
-                        arr.push(index);
+                    if(objLength(item)!=0){
+                        return item;
                     }
                 });
 
-                var i=0;
-                $.each(arr,function (index,value) {
-                    _self.new_records.$remove(_self.new_records[value-i]);
-                    i++;
-                });
 
-                if (_self.new_records.length != 0) {
-                    json = JSON.stringify(_self.new_records);
+                if (temp != 0) {
+                    json = JSON.stringify(temp);
                     $.ajax({
                         type: 'POST',
                         url: 'receiving/insert',

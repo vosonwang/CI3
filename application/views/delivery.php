@@ -1,4 +1,3 @@
-
 <link href="public/css/table.css" rel="stylesheet">
 
 
@@ -8,7 +7,20 @@
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <table class="table table-striped table-bordered table-hover table-bordersed table-condensed text-center unselectable">
+            <div style="height: 40px;background-color: rgb(245,245,245);">
+                <h4 style="margin-bottom: 0;font-weight: bold;width: 100px;display:inline">收货记录</h4>
+                <div class="pull-right" style="display: inline">
+
+                    <button class="btn btn-default" type="submit" @click="insert">保存</button>
+                    <button class="btn btn-default" type="submit" @click="delete">删除</button>
+                    <button class="btn btn-default" type="submit" @click="showmodal">增加</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12">
+            <table
+                class="table table-striped table-bordered table-hover table-bordersed table-condensed text-center unselectable">
                 <thead>
                 <tr>
                     <th class="text-center border">No</th>
@@ -26,12 +38,15 @@
                 <tbody>
                 <template v-for="(index,item) in deliveries | orderBy 'sequence' ">
                     <tr @click="getId(item,$event)" id="i{{item.id}}">
-                        <th class="border text-center change_to_add" ">{{index+1}}</th>
+                        <th class="border text-center change_to_add"
+                        ">{{index+1}}</th>
                         <td>{{item.delivery_date}}</td>
                         <td>{{item.pattern}}</td>
                         <td>{{item.pieces}}</td>
                         <td>{{item.price}}</td>
-                        <td v-if="item.price!=null&&item.pieces!=null&&item.price!=''&&item.pieces!=''">{{item.price*item.pieces}}</td>
+                        <td v-if="item.price!=null&&item.pieces!=null&&item.price!=''&&item.pieces!=''">
+                            {{item.price*item.pieces}}
+                        </td>
                         <td v-else></td>
                         <td>{{item.packages}}</td>
                         <td>{{item.consignee}}</td>
@@ -50,7 +65,9 @@
                         <td><input class="addRow" type="number" name="pieces" v-model="item.pieces"></td>
                         <td><input class="addRow" type="number" name="price" v-model="item.price"></td>
                         <td>
-                            <input class="addRow"  name="amount" v-if="item.price!=null&&item.pieces!=null&&item.price!=''&&item.pieces!=''" value="{{item.pieces*item.price}}" disabled="disabled">
+                            <input class="addRow" name="amount"
+                                   v-if="item.price!=null&&item.pieces!=null&&item.price!=''&&item.pieces!=''"
+                                   value="{{item.pieces*item.price}}" disabled="disabled">
                             <input class="addRow" name="amount" v-else disabled="disabled">
                         </td>
                         <td><input class="addRow" type="number" name="packages" v-model="item.packages"></td>
@@ -62,11 +79,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-xs-12">
-            <button class="btn btn-default" type="submit" @click="insert">保存</button>
-            <button class="btn btn-default" type="submit" @click="delete">删除</button>
-            <button class="btn btn-default" type="submit" @click="showmodal">增加</button>
-        </div>
+
     </div>
 
 
@@ -82,7 +95,7 @@
                 <br>
                 <br>
                 <div class="col-xs-offset-1 col-xs-6">
-                    <input class="insertRows" type="number" v-model="row" placeholder="请输入行数"  @keyup.enter="addrow()">
+                    <input class="insertRows" type="number" v-model="row" placeholder="请输入行数" @keyup.enter="addrow()">
                 </div>
                 <div class="col-xs-5">
                     <button type="button" class="btn btn-primary" @click="addrow()">确认</button>
@@ -94,7 +107,6 @@
             </div>
         </div>
     </div>
-
 
 
 </div>
