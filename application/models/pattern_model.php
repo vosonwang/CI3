@@ -9,7 +9,6 @@
 class Pattern_model extends CI_Model
 {
     function show(){
-        $this -> db -> select('*');
         $query = $this -> db -> get('pattern');
         return $query -> result();
     }

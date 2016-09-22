@@ -81,7 +81,7 @@
                                         </td>
                                         <td><input class="addRow" v-model="item.receipt_date"></td>
                                         <td>
-                                            <input class="addRow" type="text" v-model="item.order_no" list="orders"
+                                            <input class="addRow" type="text"  list="orders"
                                                    @click="getRecords('order')"
                                                    @change="getRecordId(index,$event,'order')" name="ord{{index}}">
                                             <datalist id="orders">
@@ -91,7 +91,7 @@
                                             </datalist>
                                         </td>
                                         <td>
-                                            <input class="addRow" type="text" v-model="item.pattern" list="patterns"
+                                            <input class="addRow" type="text"  list="patterns"
                                                    @click="getRecords('pattern')"
                                                    @change="getRecordId(index,$event,'pattern')" name="pat{{index}}">
                                             <datalist id="patterns">
@@ -103,7 +103,7 @@
                                         <td><input class="addRow" type="number" v-model="item.pieces" ></td>
                                         <td><input class="addRow" type="number" v-model="item.trips" ></td>
                                         <td>
-                                            <input class="addRow" type="text" v-model="item.user_name" list="users"
+                                            <input class="addRow" type="text"  list="users"
                                                    @click="getRecords('user')"
                                                    @change="getRecordId(index,$event,'user')" name="user{{index}}">
                                             <datalist id="users">

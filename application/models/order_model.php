@@ -9,7 +9,6 @@
 class Order_model extends CI_Model
 {
     function show(){
-        $this -> db -> select('*');
         $query = $this -> db -> get('orders');
         return $query -> result();
     }

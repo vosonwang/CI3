@@ -86,7 +86,7 @@ $(function () {
                 //1.过滤用户输入的""， 2. 过滤空的行
                 var temp = this.new_records.filter(function (item) {
                     for (var obj in item) {
-                        if (item[obj] == '') {
+                        if (item[obj] == '' || item[obj]==undefined) {
                             delete item[obj];
                         }
                     }

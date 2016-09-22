@@ -8,12 +8,11 @@
  */
 class Receiving_model extends CI_Model{
     function show() {
-        $this -> db -> select('*');
         $query = $this -> db -> get('v_receiving');
         return $query -> result();
     }
 
-    function insert(){
-
+    function insert($arr){
+        $this->db->insert('receiving', $arr);
     }
 }

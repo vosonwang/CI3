@@ -8,6 +8,10 @@
  */
 class order extends Controller
 {
+    function index(){
+
+    }
+
     function show(){
         $this -> load -> model('Order_model');
         $dates=$this-> Order_model->show();
