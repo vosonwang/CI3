@@ -23,6 +23,12 @@
         <a href="delivery" style="text-decoration: none;font-size: 30px;margin-right: 20px;">发货记录</a>
     </div>
 
+
+
+    <div class="pull-right">
+        <button class="btn btn-default" onclick="logout()">退出</button>
+    </div>
+
     <div class="pull-right" style="display: inline-block;margin-right: 20px;">
         <span style="font-size: 16px;line-height:40px;height: 40px;">
                 <?php echo $_SESSION['user_name'] ?>
@@ -32,6 +38,7 @@
     <div class="pull-right" style="font-size:30px;line-height:30px;display: inline-block;padding: 5px;">
         <i class="fa fa-user" style="vertical-align: middle"></i>
     </div>
+
 
 </div>
 

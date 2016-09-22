@@ -18,4 +18,5 @@
     <script src="public/vendor/toastr.min.js"></script>
     <script src="public/vendor/vue.js"></script>
     <script src="public/js/public.js"></script>
+    <script src="public/js/logout.js"></script>
 </head>

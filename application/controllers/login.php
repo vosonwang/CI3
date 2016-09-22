@@ -9,14 +9,14 @@ class Login extends Controller {
     function check() {
         // 载入CI的session库
         $this -> load -> model('User_model');
-        $user = $this -> User -> u_select($_POST['login_name']);
+        $user = $this -> User_model -> u_select($_POST['login_name']);
         //调用User_test模型的u_select方法查询提交的用户名的信息
         if ($user) {
             // 如果此用户存在
             if (password_verify($_POST['password'],$user[0] -> password)) {
                 $_SESSION['is_login']=1;
                 $_SESSION['user_name']=$user[0]->user_name;
-                $msg=[1,"window.location.href='index'"];
+                $msg=[1,"window.location.href='delivery'"];
         } else {
                 $msg=[0,"密码错误！"];
             }
@@ -32,6 +32,8 @@ class Login extends Controller {
     function logout() {
 
         session_destroy();
+        $msg="window.location.href='login'";
+        echo $msg;
     }
 
 }

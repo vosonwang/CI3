@@ -27,7 +27,7 @@ $(function () {
                 if (un == undefined || pw == undefined || un == "" || pw == "") {
                     toastr.info("请输入用户名或密码！");
                 } else {
-                    this.remeber();
+                    _self.remeber();
                     $.ajax({
                         type: 'POST',
                         url: 'login/check',
@@ -50,15 +50,12 @@ $(function () {
                     var un = _self.userinfo.login_name;
                     var pw = _self.userinfo.password;
                     if (un != undefined && pw != undefined && un != "" && pw != "") {
-                        localStorage.login_name=this.userinfo.login_name;
-                        localStorage.password=getAES(this.userinfo.password);
+                        localStorage.login_name=un;
+                        localStorage.password=getAES(pw);
                         localStorage.is_remeber=true;
                     }
                 }else{
                     localStorage.clear();
-                    $("[name='login_name']").val("");
-                    $("[name='password']").val("");
-                    this.is_remeber=false;
                 }
             }
         }

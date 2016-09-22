@@ -35,7 +35,7 @@ if (!function_exists('checkLogin')) {
             if (!$is_ajax) {
                 if (!isset($_SESSION['HTTP_REFERER'])) {
                     if ($d == '/' && $c == 'login' && $m == 'index') {
-                        redirect('index');
+                        redirect('delivery');
                     }
                 }
             }
