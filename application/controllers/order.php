@@ -9,7 +9,9 @@
 class order extends Controller
 {
     function index(){
-
+        $this -> load -> view('templates/header');
+        $this -> load -> view('templates/nav');
+        $this -> load -> view('order');
     }
 
     function show(){
@@ -17,4 +19,6 @@ class order extends Controller
         $dates=$this-> Order_model->show();
         echo json_encode($dates);
     }
+
+
 }

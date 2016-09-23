@@ -12,4 +12,11 @@ class Order_model extends CI_Model
         $query = $this -> db -> get('orders');
         return $query -> result();
     }
+
+    function getOrderNo(){
+        $this->db->distinct();
+        $this->db->select('order_no');
+        $query=$this->db->get('orders');
+        return $query -> result();
+    }
 }

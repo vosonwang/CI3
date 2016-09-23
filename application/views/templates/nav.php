@@ -21,6 +21,8 @@
     <div style="height: 50px;display: inline-block;">
         <a href="receiving" style="text-decoration: none;font-size: 30px;margin-right: 20px;">收货记录</a>
         <a href="delivery" style="text-decoration: none;font-size: 30px;margin-right: 20px;">发货记录</a>
+        <a href="order" style="text-decoration: none;font-size: 30px;margin-right: 20px;">订单</a>
+        <a href="pattern" style="text-decoration: none;font-size: 30px;margin-right: 20px;">花型</a>
     </div>
 
 

@@ -12,4 +12,12 @@ class Pattern_model extends CI_Model
         $query = $this -> db -> get('pattern');
         return $query -> result();
     }
+
+    function insert($arr){
+        $this->db->insert('pattern', $arr);
+    }
+
+    function delete($id){
+        $this->db->delete('pattern', array('id' => $id));
+    }
 }

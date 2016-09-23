@@ -3,14 +3,12 @@
  */
 $(function () {
     var vue = new Vue({
-        el: '#receiving',
+        el: '#pattern',
         data: {
+            id:"",
             records: [],
             new_records: [{}, {}, {}, {}, {}, {}, {}],
-            del_records: [],
-            orders: [],
-            patterns: [],
-            users: []
+            del_records: []
         },
         ready: function () {
             this.show();
@@ -21,61 +19,13 @@ $(function () {
                 var _self = this;
                 $.ajax({
                     type: 'post',
-                    url: 'receiving/show',
+                    url: 'pattern/show',
                     success: function (data) {
                         if (JSON.parse(data)) {
                             _self.records = JSON.parse(data);
                         }
                     }
                 });
-            },
-
-            getRecords: function (entity) {
-                var _self = this;
-                var entity = entity;
-                $.ajax({
-                    type: 'post',
-                    url: entity + "/show",
-                    success: function (data) {
-                        if (JSON.parse(data)) {
-                            switch (entity) {
-                                case "order":
-                                    _self.orders = JSON.parse(data);
-                                    break;
-                                case "pattern":
-                                    _self.patterns = JSON.parse(data);
-                                    break;
-                                case "user":
-                                    _self.users = JSON.parse(data);
-                                    break;
-                            }
-                        }
-                    }
-                });
-            },
-
-
-            getRecordId: function (index, e, entity) {
-                var selector = $(":input[name='" + e.target.name + "']");
-                //获取当前input中的值
-                var value = selector.val();
-
-                //根据input值，查找datalist中的id,实际是订单的id
-                var record_id = selector.siblings("datalist").find("option[value='" + value + "']").attr("name");
-
-                //将订单id存入new_records中
-                switch (entity) {
-                    case 'order':
-                        this.new_records[index].order_id = record_id;
-                        break;
-                    case 'pattern':
-                        this.new_records[index].pattern_id = record_id;
-                        break;
-                    case 'user':
-                        this.new_records[index].user_id = record_id;
-                        break;
-                }
-
             },
 
 
@@ -97,13 +47,12 @@ $(function () {
 
 
                 if (temp != 0) {
-                    json = JSON.stringify(temp);
+                    var json = JSON.stringify(temp);
                     $.ajax({
                         type: 'POST',
-                        url: 'receiving/insert',
+                        url: 'pattern/insert',
                         data: {json: json},
                         success: function (msg) {
-                            console.log(msg);
                             $('#new_records').modal('hide');
                             _self.show();
                             _self.new_records = [{}, {}, {}, {}, {}, {}, {}];
@@ -115,11 +64,14 @@ $(function () {
 
             delete: function () {
                 var _self = this;
-                if (typeof(del_records) != 'undefined') {
+
+                //判断是否选择了要删除的数据
+                if (typeof(_self.del_records[0]) != 'undefined') {
+                    var json = JSON.stringify(_self.del_records);
                     $.ajax({
                         type: 'POST',
-                        url: 'receiving/delete',
-                        data: {id: this.del_records},
+                        url: 'pattern/delete',
+                        data: {json: json},
                         success: function (msg) {
                             _self.show();
                             _self.del_records = [];
