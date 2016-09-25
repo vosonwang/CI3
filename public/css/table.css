@@ -17,7 +17,6 @@ input.insertRows{
 }
 
 table {
-    border: 1px solid #ddd;
     text-align: center;
     border-spacing: 0;
     border-collapse: collapse;
@@ -53,4 +52,8 @@ td,th{
     */
     -ms-user-select: none;
     user-select: none;
+}
+
+.selectedOrder{
+    border: 2px solid #95e9ff
 }

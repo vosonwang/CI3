@@ -1,4 +1,3 @@
-<link href="public/css/table.css" rel="stylesheet">
 
 
 <div class="container" id="finishing">

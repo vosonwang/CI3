@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="public/vendor/bootstrap.min.css" rel="stylesheet">
     <link href="public/vendor/toastr.min.css" rel="stylesheet">
-    <link href="public/css/index.css" rel="stylesheet">
+    <link href="public/css/table.css" rel="stylesheet">
 
     <!--favicon-->
     <link href="public/img/favicon.ico" mce_href="public/img/favicon.ico" rel="bookmark" type="image/x-icon"/>

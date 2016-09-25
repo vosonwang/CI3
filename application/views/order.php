@@ -5,49 +5,65 @@
         &nbsp;
     </div>
     <div class="row">
-        <div class="col-xs-12" >
+        <div class="col-xs-12">
             <div style="height: 40px;background-color: white;">
                 <h4 style="margin-bottom: 0;font-weight: bold;width: 100px;display:inline">订单</h4>
 
                 <div class="pull-right" style="display: inline">
 
-                    <button class="btn btn-default right" @click="delete">删除</button>
                     <button class="btn btn-default right" data-toggle="modal" data-target="#new_records">增加订单</button>
                     <button class="btn btn-default right" data-toggle="modal" data-target="#new_records">修改订单</button>
                 </div>
             </div>
         </div>
 
+        <template v-for="(index,item) in records">
+                <div style="display: block;margin-top: 20px;" class="col-xs-12" @click="getOrderId(item)">
+                    <div style="background-color: white;font-size:16px;line-height: 30px;height: 32px;" id="O{{item.id}}">
+                        <span
+                            style="width: 33%;display: inline-block">订单号：{{item.order_no}}</span>
+                        <span class="" style="width: 33%;display: inline-block">总条数：{{totalPieces[index]}}</span>
+                        <span class="pull-right" style="width: 2%;display: inline-block">
+                    <a href="javascript:void(0)" @click="delete" style="color:black">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    </a></span>
+                        <span class="pull-right" style="width: 2%;display: inline-block">
+                    <a href="javascript:void(0)" @click="delete" style="color:black">
+                        <i class="fa fa-minus" aria-hidden="true"></i>
+                    </a></span>
+                        <span class="pull-right" style="width: 2%;display: inline-block">
+                    <a href="javascript:void(0)" @click="delete" style="color:black">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </a></span>
+                        <span class="pull-right"
+                              style="width: 20%;display: inline-block">交货日期：{{item.expiration_date}}</span>
+                    </div>
+                </div>
 
-        <div style="display: block;margin-top: 20px;" class="col-xs-12">
-            <div style="background-color: white;font-size:16px;line-height: 30px;height: 30px;">
-                <span style="background-color: white;width: 33%;display: inline-block" >订单号：</span>
-                <span class="" style="width: 33%;display: inline-block">总条数：</span>
-                <span class="pull-right" style="width: 33%;display: inline-block">交货日期：</span>
+            <div class="col-xs-12" >
+                <table
+                    class="table table-striped table-bordered table-hover table-bordersed table-condensed text-center unselectable">
+                    <thead>
+                    <tr>
+                        <th class="text-center border">No</th>
+                        <th class="text-center">花型</th>
+                        <th class="text-center">条数</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <template v-for="(key,value) in item.detail">
+                        <tr id="OP{{value.id}}" @click="getOPId(value,item)">
+                            <th>{{key+1}}</th>
+                            <td>{{value.pattern}}</td>
+                            <td>{{value.pieces}}</td>
+                        </tr>
+                    </template>
+
+                    </tbody>
+                </table>
             </div>
-        </div>
 
-        <div class="col-xs-12">
-            <table
-                class="table table-striped table-bordered table-hover table-bordersed table-condensed text-center unselectable">
-                <thead>
-                <tr>
-                    <th class="text-center border">No</th>
-                    <th class="text-center">花型</th>
-                    <th class="text-center">条数</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th></th>
-                    <td></td>
-                    <td></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
-
+        </template>
     </div>
 
     <div class="modal fade " role="dialog" aria-labelledby="gridSystemModalLabel" id="new_records">

@@ -20,15 +20,13 @@ class order_detail extends Controller
 
     function getDetail(){
         $this -> load -> model('Order_model');
+        $this -> load -> model('Order_detail_model');
         $orders=$this-> Order_model->getOrderNo();
 
-        $this -> load -> model('Order_detail_model');
         foreach ($orders as $item){
             $dates=$this-> Order_detail_model->order_detail($item->order_no);
             $item->detail=$dates;
-
-            $id=$this-> Order_detail_model->order_pattern_id($item->order_no);
-            $item->id=$id;
+            
 
         }
 

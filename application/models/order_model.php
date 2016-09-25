@@ -8,15 +8,23 @@
  */
 class Order_model extends CI_Model
 {
-    function show(){
+    function show($fields){
+        $this->db->select($fields);
         $query = $this -> db -> get('orders');
         return $query -> result();
     }
 
     function getOrderNo(){
         $this->db->distinct();
-        $this->db->select('order_no');
+        $this->db->select('id,order_no,expiration_date');
         $query=$this->db->get('orders');
         return $query -> result();
+    }
+
+    function getOrderId($order_no){
+        $this->db->select('id');
+        $this->db->where('order_no', $order_no);
+        $query=$this->db->get('orders');
+        return $query -> row();
     }
 }

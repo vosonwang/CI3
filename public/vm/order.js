@@ -10,13 +10,31 @@ $(function () {
             del_records: [],
             orders: [],
             patterns: [],
-            users: []
+            users: [],
+            order_id:"",
+            op_id:[]
         },
         ready: function () {
             this.show();
         },
+        computed:{
+            //计算订单总条数
+          totalPieces:function () {
+              var _self = this;
+              var a=[];
+              $.each(_self.records,function (index,item) {
+                  var b=0;
+                  $.each(item.detail,function (key,value) {
+                      b=b+parseInt(value.pieces);
+                  });
+                  a.push(b);
+              });
+              return a;
+          }
+        },
 
         methods: {
+            //获取订单信息
             show: function () {
                 var _self = this;
                 $.ajax({
@@ -30,6 +48,7 @@ $(function () {
                 });
             },
 
+            //
             getRecords: function (entity) {
                 var _self = this;
                 var entity = entity;
@@ -55,28 +74,6 @@ $(function () {
             },
 
 
-            getRecordId: function (index, e, entity) {
-                var selector = $(":input[name='" + e.target.name + "']");
-                //获取当前input中的值
-                var value = selector.val();
-
-                //根据input值，查找datalist中的id,实际是订单的id
-                var record_id = selector.siblings("datalist").find("option[value='" + value + "']").attr("name");
-
-                //将订单id存入new_records中
-                switch (entity) {
-                    case 'order':
-                        this.new_records[index].order_id = record_id;
-                        break;
-                    case 'pattern':
-                        this.new_records[index].pattern_id = record_id;
-                        break;
-                    case 'user':
-                        this.new_records[index].user_id = record_id;
-                        break;
-                }
-
-            },
 
 
             insert: function () {
@@ -114,55 +111,47 @@ $(function () {
 
 
             delete: function () {
-                var _self = this;
-                if (typeof(del_records) != 'undefined') {
-                    $.ajax({
-                        type: 'POST',
-                        url: 'receiving/delete',
-                        data: {id: this.del_records},
-                        success: function (msg) {
-                            _self.show();
-                            _self.del_records = [];
-                            _self.id = ""
-                        }
-                    })
-                } else {
-                    toastr.info('请选择要删除的记录！')
-                }
+                console.log(2);
             },
 
-            getId: function (item, e) {
-                if (e.shiftKey == 1) {
-                    if (this.id != "") {
-                        var _new = arrObjIndex(item.id, this.records);
-                        var _old = arrObjIndex(this.id, this.records);
-                        if (_new > _old) {
-                            for (var i = 1; i <= _new - _old; i++) {
-                                var selector = "#i" + this.records[i + _old].id;
-                                $(selector).addClass("selected");
-                                this.del_records.push(this.records[i + _old].id);
-                            }
-                            this.id = item.id;
-                        } else {
-                            for (i = 1; i <= _old - _new; i++) {
-                                selector = "#i" + this.records[_old - i].id;
-                                $(selector).addClass("selected");
-                                this.del_records.push(this.records[_old - i].id);
-                            }
-                            this.id = item.id;
-                        }
 
+            getOPId :function(value,item){
+                var _self=this;
+                var _new="#OP"+value.id;
+                if(_self.order_id != ""){
+                    if(_self.order_id==item.id){
+                        if(value.id!=""){
+
+                        }
+                        $(_new).addClass("selected");
+                    }else {
+                        $(_old).removeClass("selected");
+                        _self.order_id=item.id;
                     }
-                } else {
-                    this.id = item.id;    //获取被点击行的id
-                    selector = "#i" + item.id;
-                    if ($(selector).hasClass("selected")) {      //判断该行,之前是否是已经加上了选中效果
-                        $(selector).removeClass("selected");
-                        this.del_records.remove(item.id);
-                    } else {
-                        $(selector).addClass("selected");
-                        this.del_records.push(item.id);
+                }else{
+                    $(_new).addClass("selected");
+                    _self.order_id=item.id;
+                }
+
+            },
+
+            //为修改订单提供订单号
+            getOrderId: function (item) {
+                var _self=this;
+                var _new="#O"+item.id;
+                var _old="#O"+_self.order_id;
+                if(_self.order_id != ""){
+                    if(_self.order_id==item.id){
+                        $(_new).removeClass("selectedOrder");
+                        _self.order_id="";
+                    }else {
+                        $(_new).addClass("selectedOrder");
+                        $(_old).removeClass("selectedOrder");
+                        _self.order_id=item.id;
                     }
+                }else {
+                    $(_new).addClass("selectedOrder");
+                    _self.order_id=item.id;
                 }
             }
         }
