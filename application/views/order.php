@@ -24,15 +24,15 @@
                             style="width: 33%;display: inline-block">订单号：{{item.order_no}}</span>
                         <span class="" style="width: 33%;display: inline-block">总条数：{{totalPieces[index]}}</span>
                         <span class="pull-right" style="width: 2%;display: inline-block">
-                    <a href="javascript:void(0)" @click="delete" style="color:black">
+                    <a href="javascript:void(0)"  style="color:black">
                         <i class="fa fa-trash-o" aria-hidden="true"></i>
                     </a></span>
                         <span class="pull-right" style="width: 2%;display: inline-block">
-                    <a href="javascript:void(0)" @click="delete" style="color:black">
+                    <a href="javascript:void(0)" @click="deletePattern" style="color:black">
                         <i class="fa fa-minus" aria-hidden="true"></i>
                     </a></span>
                         <span class="pull-right" style="width: 2%;display: inline-block">
-                    <a href="javascript:void(0)" @click="delete" style="color:black">
+                    <a href="javascript:void(0)" style="color:black">
                         <i class="fa fa-plus" aria-hidden="true"></i>
                     </a></span>
                         <span class="pull-right"
@@ -48,6 +48,8 @@
                         <th class="text-center border">No</th>
                         <th class="text-center">花型</th>
                         <th class="text-center">条数</th>
+                        <th class="text-center">已发</th>
+                        <th class="text-center">剩余</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -56,6 +58,8 @@
                             <th>{{key+1}}</th>
                             <td>{{value.pattern}}</td>
                             <td>{{value.pieces}}</td>
+                            <td>{{value.totaldelivery}}</td>
+                            <td>{{totaldelivery[item.id][key]}}</td>
                         </tr>
                     </template>
 

@@ -11,26 +11,44 @@ $(function () {
             orders: [],
             patterns: [],
             users: [],
-            order_id:"",
-            op_id:[]
+            order_id: "",
         },
         ready: function () {
             this.show();
         },
-        computed:{
+        computed: {
             //计算订单总条数
-          totalPieces:function () {
-              var _self = this;
-              var a=[];
-              $.each(_self.records,function (index,item) {
-                  var b=0;
-                  $.each(item.detail,function (key,value) {
-                      b=b+parseInt(value.pieces);
-                  });
-                  a.push(b);
-              });
-              return a;
-          }
+            totalPieces: function () {
+                var _self = this;
+                var a = [];
+                $.each(_self.records, function (index, item) {
+                    var b = 0;
+                    $.each(item.detail, function (key, value) {
+                        b = b + parseInt(value.pieces);
+                    });
+                    a.push(b);
+                });
+                return a;
+            },
+            totaldelivery: function () {
+                var _self = this;
+                var a = [];
+                $.each(_self.records, function (index, item) {
+                    var b = 0;
+                    a[item.id]=[];
+                    $.each(item.detail, function (key, value) {
+                        if(value.totaldelivery!=null){
+                            b=parseInt(value.pieces)-parseInt(value.totaldelivery)
+
+                        }else {
+                            b="";
+                        }
+                    });
+                    a[item.id].push(b);
+                });
+                return a;
+            }
+
         },
 
         methods: {
@@ -74,8 +92,6 @@ $(function () {
             },
 
 
-
-
             insert: function () {
                 var _self = this;
 
@@ -83,11 +99,11 @@ $(function () {
                 //1.过滤用户输入的""， 2. 过滤空的行
                 var temp = this.new_records.filter(function (item) {
                     for (var obj in item) {
-                        if (item[obj] == '' || item[obj]==undefined) {
+                        if (item[obj] == '' || item[obj] == undefined) {
                             delete item[obj];
                         }
                     }
-                    if(objLength(item)!=0){
+                    if (objLength(item) != 0) {
                         return item;
                     }
                 });
@@ -110,48 +126,79 @@ $(function () {
             },
 
 
-            delete: function () {
-                console.log(2);
+            deletePattern: function () {
+                var _self = this;
+                if (typeof(_self.del_records) != 'undefined') {
+                    var _json = JSON.stringify(_self.del_records);
+                    $.ajax({
+                        type: 'POST',
+                        url: 'order_detail/delete',
+                        data: {json: _json},
+                        success: function (msg) {
+                            _self.show();
+                            _self.del_records = [];
+                            _self.order_id = ""
+                        }
+                    })
+                } else {
+                    toastr.info('请选择要删除的记录！')
+                }
             },
 
 
-            getOPId :function(value,item){
-                var _self=this;
-                var _new="#OP"+value.id;
-                if(_self.order_id != ""){
-                    if(_self.order_id==item.id){
-                        if(value.id!=""){
+            getOPId: function (value, item) {
+                var _self = this;
+                var selector = $("#OP" + value.id);
 
+                //判断是否已有订单被选中
+                if (_self.order_id != "") {
+                    //判断是否选中的订单之前已被选中
+                    if (_self.order_id == item.id) {
+
+                        var index = _self.del_records.indexOf(value.id);
+
+                        //判断被选中的项目是否之前已被选中
+                        if (index > -1) {
+                            selector.removeClass("selected");
+                            _self.del_records.splice(index, 1);
+                        } else {
+                            selector.addClass("selected");
+                            _self.del_records.push(value.id);
                         }
-                        $(_new).addClass("selected");
-                    }else {
-                        $(_old).removeClass("selected");
-                        _self.order_id=item.id;
+                    } else {
+                        $.each(_self.del_records, function (i, n) {
+                            $("#OP" + n).removeClass("selected");
+                        });
+                        _self.del_records = [];
+                        _self.order_id = item.id;
+                        _self.del_records.push(value.id);
+                        selector.addClass("selected");
                     }
-                }else{
-                    $(_new).addClass("selected");
-                    _self.order_id=item.id;
+                } else {
+                    selector.addClass("selected");
+                    _self.order_id = item.id;
+                    _self.del_records.push(value.id);
                 }
 
             },
 
             //为修改订单提供订单号
             getOrderId: function (item) {
-                var _self=this;
-                var _new="#O"+item.id;
-                var _old="#O"+_self.order_id;
-                if(_self.order_id != ""){
-                    if(_self.order_id==item.id){
+                var _self = this;
+                var _new = "#O" + item.id;
+                var _old = "#O" + _self.order_id;
+                if (_self.order_id != "") {
+                    if (_self.order_id == item.id) {
                         $(_new).removeClass("selectedOrder");
-                        _self.order_id="";
-                    }else {
+                        _self.order_id = "";
+                    } else {
                         $(_new).addClass("selectedOrder");
                         $(_old).removeClass("selectedOrder");
-                        _self.order_id=item.id;
+                        _self.order_id = item.id;
                     }
-                }else {
+                } else {
                     $(_new).addClass("selectedOrder");
-                    _self.order_id=item.id;
+                    _self.order_id = item.id;
                 }
             }
         }

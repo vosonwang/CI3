@@ -16,12 +16,14 @@ class Order_detail_model extends CI_Model
 
 
     function order_detail($order_no){
-        $this->db->select('id,pattern,pieces');
+        $this->db->select('id,pattern,pieces,totaldelivery');
         $this->db->where('order_no', $order_no);
         $query=$this->db->get('v_order_detail');
         return $query -> result();
     }
 
-
+    function delete($id){
+        $this->db->delete('order_pattern', array('id' => $id));
+    }
 
 }

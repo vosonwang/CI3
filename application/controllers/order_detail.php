@@ -33,4 +33,13 @@ class order_detail extends Controller
         echo json_encode($orders);
     }
 
+    function delete(){
+        $this -> load -> model('Order_detail_model');
+        $t=$this->input->post(null,true);
+        foreach(json_decode($t['json']) as $item){
+            $this-> Order_detail_model->delete($item);
+        }
+    }
+
+
 }
