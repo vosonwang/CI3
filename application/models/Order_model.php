@@ -8,8 +8,7 @@
  */
 class Order_model extends CI_Model
 {
-    function show($fields){
-        $this->db->select($fields);
+    function show(){
         $query = $this -> db -> get('orders');
         return $query -> result();
     }

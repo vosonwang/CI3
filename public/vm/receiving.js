@@ -32,7 +32,6 @@ $(function () {
 
             getRecords: function (entity) {
                 var _self = this;
-                var entity = entity;
                 $.ajax({
                     type: 'post',
                     url: entity + "/show",

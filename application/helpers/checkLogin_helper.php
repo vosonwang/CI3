@@ -6,8 +6,8 @@
  * Time: 17:09
  */
 
-if (!function_exists('checkLogin')) {
-    function checkLogin()
+if (!function_exists('checklogin')) {
+    function checklogin()
     {
         $ci =& get_instance();
         $ci->load->helper('url');

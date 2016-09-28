@@ -11,7 +11,7 @@ $(function () {
             orders: [],
             patterns: [],
             users: [],
-            order_id: "",
+            order_id: ""
         },
         ready: function () {
             this.show();

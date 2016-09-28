@@ -76,8 +76,8 @@ $query_builder = TRUE;
 $db['default'] = array(
 	'dsn'	=> 'mysql:host=139.129.214.185;port=3306;dbname=scarf',
 	'hostname' => '',
-	'username' => 'root',
-	'password' => '6FVCXpAJRv6dFy',
+	'username' => 'voson',
+	'password' => '5NqKznK4AUdO',
 	'database' => 'scarf',
 	'dbdriver' => 'pdo',
 	'dbprefix' => '',
