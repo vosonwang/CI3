@@ -6,7 +6,7 @@
  * Time: 10:15
  */
 
-    class User_model extends CI_Model{
+    class Model_user extends CI_Model{
 
         function show(){
             $this -> db -> select('user_id,user_name');

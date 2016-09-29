@@ -6,7 +6,7 @@
  * Date: 2016/9/19
  * Time: 14:51
  */
-class Receiving_model extends CI_Model{
+class Model_receiving extends CI_Model{
     function show() {
         $query = $this -> db -> get('v_receiving');
         return $query -> result();

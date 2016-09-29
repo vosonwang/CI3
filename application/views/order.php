@@ -1,4 +1,4 @@
-<title>后道厂收货记录</title>
+<title>订单</title>
 <body style="font-family: 微软雅黑,Arial,宋体">
 <div class="container" id="receiving">
     <div class="row">
@@ -36,7 +36,7 @@
                         <i class="fa fa-plus" aria-hidden="true"></i>
                     </a></span>
                         <span class="pull-right"
-                              style="width: 20%;display: inline-block">交货日期：{{item.expiration_date}}</span>
+                              style="display: inline-block;margin-right: 1%">交货日期：{{item.expiration_date}}</span>
                     </div>
                 </div>
 

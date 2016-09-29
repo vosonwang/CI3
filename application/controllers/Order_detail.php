@@ -10,21 +10,21 @@
 class order_detail extends Controller
 {
     function show(){
-        $this -> load -> model('Order_model');
-        $orders=$this-> Order_model->show();
+        $this -> load -> model('Model_order');
+        $orders=$this-> Model_order->show();
 
-        $this -> load -> model('Order_detail_model');
-        $dates=$this-> Order_detail_model->show();
+        $this -> load -> model('Model_order_detail');
+        $dates=$this-> Model_order_detail->show();
         echo json_encode($dates);
     }
 
     function getDetail(){
-        $this -> load -> model('Order_model');
-        $this -> load -> model('Order_detail_model');
-        $orders=$this-> Order_model->getOrderNo();
+        $this -> load -> model('Model_order');
+        $this -> load -> model('Model_order_detail');
+        $orders=$this-> Model_order->getOrderNo();
 
         foreach ($orders as $item){
-            $dates=$this-> Order_detail_model->order_detail($item->order_no);
+            $dates=$this-> Model_order_detail->order_detail($item->order_no);
             $item->detail=$dates;
             
 
@@ -34,10 +34,10 @@ class order_detail extends Controller
     }
 
     function delete(){
-        $this -> load -> model('Order_detail_model');
+        $this -> load -> model('Model_order_detail');
         $t=$this->input->post(null,true);
         foreach(json_decode($t['json']) as $item){
-            $this-> Order_detail_model->delete($item);
+            $this-> Model_order_detail->delete($item);
         }
     }
 

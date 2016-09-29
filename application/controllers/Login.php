@@ -8,8 +8,8 @@ class Login extends Controller {
 
     function check() {
         // 载入CI的session库
-        $this -> load -> model('User_model');
-        $user = $this -> User_model -> u_select($_POST['login_name']);
+        $this -> load -> model('Model_user');
+        $user = $this -> Model_user -> u_select($_POST['login_name']);
         //调用User_test模型的u_select方法查询提交的用户名的信息
         if ($user) {
             // 如果此用户存在

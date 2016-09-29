@@ -15,26 +15,26 @@ class pattern extends Controller
     }
 
     function show(){
-        $this -> load -> model('Pattern_model');
-        $dates=$this-> Pattern_model->show();
+        $this -> load -> model('Model_pattern');
+        $dates=$this-> Model_pattern->show();
         echo json_encode($dates);
     }
 
     function insert(){
         $json=$this->input->post(null,TRUE);
-        $this -> load -> model('Pattern_model');
+        $this -> load -> model('Model_pattern');
         $datas=json_decode($json['json']);
         foreach ($datas as $item){
-            $this-> Pattern_model->insert($item);
+            $this-> Model_pattern->insert($item);
         }
     }
 
     function delete(){
         $json=$this->input->post(null,TRUE);
         $datas=json_decode($json['json']);
-        $this -> load -> model('Pattern_model');
+        $this -> load -> model('Model_pattern');
         foreach ($datas as $item){
-            $this-> Pattern_model->delete($item);
+            $this-> Model_pattern->delete($item);
         }
     }
 

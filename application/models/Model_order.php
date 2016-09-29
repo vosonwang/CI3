@@ -6,7 +6,7 @@
  * Date: 2016/9/21
  * Time: 23:03
  */
-class Order_model extends CI_Model
+class Model_order extends CI_Model
 {
     function show(){
         $query = $this -> db -> get('orders');

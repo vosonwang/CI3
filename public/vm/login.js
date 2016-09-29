@@ -10,7 +10,7 @@ $(function () {
         },
         ready:function(){
             //判断是否记住用户信息
-            if(localStorage.is_remeber){
+            if(localStorage.is_remeber!=undefined && localStorage.is_remeber=='true'){
                 this.is_remeber=localStorage.is_remeber;
                 this.userinfo.login_name=localStorage.login_name;
                 this.userinfo.password=getDAes(localStorage.password);

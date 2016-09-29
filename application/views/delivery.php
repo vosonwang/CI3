@@ -1,13 +1,12 @@
-
-
-<div class="container" id="finishing">
+<title>发货记录</title>
+<div class="container" id="delivery">
     <div class="row">
         &nbsp;
     </div>
     <div class="row">
         <div class="col-xs-12">
             <div style="height: 40px;background-color: rgb(245,245,245);">
-                <h4 style="margin-bottom: 0;font-weight: bold;width: 100px;display:inline">收货记录</h4>
+                <h4 style="margin-bottom: 0;font-weight: bold;width: 100px;display:inline">发货记录</h4>
                 <div class="pull-right" style="display: inline">
 
                     <button class="btn btn-default" type="submit" @click="insert">保存</button>
@@ -37,8 +36,7 @@
                 <tbody>
                 <template v-for="(index,item) in deliveries | orderBy 'sequence' ">
                     <tr @click="getId(item,$event)" id="i{{item.id}}">
-                        <th class="border text-center change_to_add"
-                        ">{{index+1}}</th>
+                        <th class="border text-center change_to_add">{{index+1}}</th>
                         <td>{{item.delivery_date}}</td>
                         <td>{{item.pattern}}</td>
                         <td>{{item.pieces}}</td>
@@ -49,7 +47,7 @@
                         <td v-else></td>
                         <td>{{item.packages}}</td>
                         <td>{{item.consignee}}</td>
-                        <td>{{item.orders}}</td>
+                        <td>{{item.order_no}}</td>
                         <td>{{item.address}}</td>
                     </tr>
                 </template>
@@ -110,3 +108,4 @@
 
 </div>
 
+<script src="public/vm/delivery.js"></script>

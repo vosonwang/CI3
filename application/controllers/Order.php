@@ -15,12 +15,8 @@ class order extends Controller
     }
 
     function show(){
-        $this -> load -> model('Order_model');
-        $dates=$this-> Order_model->show();
+        $this -> load -> model('Model_order');
+        $dates=$this-> Model_order->show();
         echo json_encode($dates);
     }
-
-
-
-
 }

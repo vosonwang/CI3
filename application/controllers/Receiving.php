@@ -11,29 +11,29 @@ class Receiving extends Controller
 
     function show()
     {
-        $this->load->model('Receiving_model');
-        $dates = $this->Receiving_model->show();
+        $this->load->model('Model_receiving');
+        $dates = $this->Model_receiving->show();
         echo json_encode($dates);
     }
 
     function insert()
     {
-        $this->load->model('Receiving_model');
+        $this->load->model('Model_receiving');
         $json = ($this->input->post(NULL, TRUE));
         $dates = json_decode($json['json']);
         foreach ($dates as $item) {
-                $this->Receiving_model->insert($item);
+                $this->Model_receiving->insert($item);
         }
 
     }
 
     function delete()
     {
-        $this->load->model('Receiving_model');
+        $this->load->model('Model_receiving');
         $json = ($this->input->post(NULL, TRUE));
         $dates = json_decode($json['json']);
         foreach ($dates as $item) {
-            $this->Receiving_model->insert($item);
+            $this->Model_receiving->insert($item);
         }
     }
 }

@@ -20,7 +20,7 @@ if (!function_exists('checklogin')) {
             //判断是否是ajax请求
             if ($is_ajax) {
                 if($d != '/' || $c != 'login' || $m != 'check'){
-                    echo '非法请求!';
+                    echo "alert('非法请求!') ";
                     exit;
                 }
             } else {

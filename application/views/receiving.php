@@ -1,4 +1,4 @@
-<title>后道厂收货记录</title>
+<title>收货记录</title>
 <body style="font-family: 微软雅黑,Arial,宋体">
 <div class="container" id="receiving">
     <div class="row">

@@ -9,8 +9,8 @@
 class user extends Controller
 {
     function show(){
-        $this -> load -> model('User_model');
-        $dates=$this-> User_model->show();
+        $this -> load -> model('Model_user');
+        $dates=$this-> Model_user->show();
         echo json_encode($dates);
     }
 }

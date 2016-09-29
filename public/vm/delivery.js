@@ -23,7 +23,7 @@ $(function () {
                 var _self = this;
                 $.ajax({
                     type: 'GET',
-                    url: 'receiving/show',
+                    url: 'Delivery/show',
                     success: function (data) {
                         if (JSON.parse(data)) {
                             _self.deliveries = JSON.parse(data);
