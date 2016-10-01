@@ -16,7 +16,7 @@ if (!function_exists('checklogin')) {
         $m = $ci->router->fetch_method();
         $is_ajax = $ci->input->is_ajax_request();
 
-        if (empty($_SESSION['is_login'])) {
+        if (empty($_SESSION['is_login'])) {     //未登录
             //判断是否是ajax请求
             if ($is_ajax) {
                 if($d != '/' || $c != 'login' || $m != 'check'){
@@ -31,7 +31,7 @@ if (!function_exists('checklogin')) {
                     }
                 }
             }
-        } else {
+        } else {                    //已登录
             if (!$is_ajax) {
                 if (!isset($_SESSION['HTTP_REFERER'])) {
                     if ($d == '/' && $c == 'login' && $m == 'index') {
