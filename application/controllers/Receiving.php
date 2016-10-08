@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Receiving extends Controller
+class C_receiving extends Controller
 {
     public function index()
     {
@@ -11,26 +11,29 @@ class Receiving extends Controller
 
     function show()
     {
-        $this->load->model('Model_receiving');
-        $dates = $this->Model_receiving->show();
+        $this->load->model('M_receiving');
+        $dates = $this->M_receiving->show();
         echo json_encode($dates);
     }
 
     function insert()
     {
-        $this->load->model('Model_receiving');
+        $this->load->model('M_receiving');
         $json = ($this->input->post(NULL, TRUE));
         $dates = json_decode($json['json']);
         foreach ($dates as $item) {
-                $this->Model_receiving->insert($item);
+                $this->M_receiving->insert($item);
         }
 
     }
 
     function delete()
     {
-
+        $this->load->model('M_receiving');
+        $json = ($this->input->post(NULL, TRUE));
+        $dates = json_decode($json['json']);
+        foreach ($dates as $item) {
+            $this->M_receiving->insert($item);
+        }
     }
-
-
 }
