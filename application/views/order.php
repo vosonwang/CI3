@@ -11,13 +11,13 @@
 
                 <div class="pull-right" style="display: inline">
 
-                    <button class="btn btn-default right" data-toggle="modal" data-target="#new_records">增加订单</button>
-                    <button class="btn btn-default right" data-toggle="modal" data-target="#new_records">修改订单</button>
+                    <button class="btn btn-default right" data-toggle="modal" data-target="#Rec_N">增加订单</button>
+                    <button class="btn btn-default right" data-toggle="modal" data-target="#Rec_N">修改订单</button>
                 </div>
             </div>
         </div>
 
-        <template v-for="(index,item) in records">
+        <template v-for="(index,item) in Rec">
                 <div style="display: block;margin-top: 20px;" class="col-xs-12" @click="getOrderId(item)">
                     <div style="background-color: white;font-size:16px;line-height: 30px;height: 32px;" id="O{{item.id}}">
                         <span
@@ -70,7 +70,7 @@
         </template>
     </div>
 
-    <div class="modal fade " role="dialog" aria-labelledby="gridSystemModalLabel" id="new_records">
+    <div class="modal fade " role="dialog" aria-labelledby="gridSystemModalLabel" id="Rec_N">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -93,7 +93,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <template v-for="(index,item) in new_records ">
+                                <template v-for="(index,item) in Rec_N ">
                                     <tr>
                                         <td class="border">
                                             <input class="addRow" disabled="disabled" value={{index+1}}>

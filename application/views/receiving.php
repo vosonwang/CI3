@@ -12,7 +12,7 @@
                 <div class="pull-right" style="display: inline">
 
                     <button class="btn btn-default right" @click="delete">删除</button>
-                    <button class="btn btn-default right" data-toggle="modal" data-target="#new_records">增加</button>
+                    <button class="btn btn-default right" data-toggle="modal" data-target="#Rec_N">增加</button>
                 </div>
             </div>
         </div>
@@ -31,7 +31,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <template v-for="(index,item) in records | orderBy 'receipt_date' ">
+                <template v-for="(index,item) in Rec | orderBy 'receipt_date' ">
                     <tr @click="getId(item,$event)" id="i{{item.id}}">
                         <th class="border text-center change_to_add">{{index+1}}</th>
                         <td>{{item.receipt_date | dateFormat}}</td>
@@ -49,7 +49,7 @@
 
     </div>
 
-    <div class="modal fade " role="dialog" aria-labelledby="gridSystemModalLabel" id="new_records">
+    <div class="modal fade " role="dialog" aria-labelledby="gridSystemModalLabel" id="Rec_N">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -74,7 +74,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <template v-for="(index,item) in new_records ">
+                                <template v-for="(index,item) in Rec_N ">
                                     <tr>
                                         <td class="border">
                                             <input class="addRow" disabled="disabled" value={{index+1}}>
@@ -82,7 +82,7 @@
                                         <td><input class="addRow" v-model="item.receipt_date"></td>
                                         <td>
                                             <input class="addRow" type="text"  list="orders"
-                                                   @click="getRecords('order')"
+                                                   @click="getRec('order')"
                                                    @change="getRecordId(index,$event,'order')" name="ord{{index}}">
                                             <datalist id="orders">
                                                 <template v-for="item in orders">
@@ -92,7 +92,7 @@
                                         </td>
                                         <td>
                                             <input class="addRow" type="text"  list="patterns"
-                                                   @click="getRecords('pattern')"
+                                                   @click="getRec('pattern')"
                                                    @change="getRecordId(index,$event,'pattern')" name="pat{{index}}">
                                             <datalist id="patterns">
                                                 <template v-for="item in patterns">
@@ -104,7 +104,7 @@
                                         <td><input class="addRow" type="number" v-model="item.trips" ></td>
                                         <td>
                                             <input class="addRow" type="text"  list="users"
-                                                   @click="getRecords('user')"
+                                                   @click="getRec('user')"
                                                    @change="getRecordId(index,$event,'user')" name="user{{index}}">
                                             <datalist id="users">
                                                 <template v-for="item in users">

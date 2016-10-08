@@ -37,7 +37,7 @@
                 <template v-for="(index,item) in deliveries | orderBy 'sequence' ">
                     <tr @click="getId(item,$event)" id="i{{item.id}}">
                         <th class="border text-center change_to_add">{{index+1}}</th>
-                        <td>{{item.delivery_date}}</td>
+                        <td>{{item.delivery_date | dateFormat}}</td>
                         <td>{{item.pattern}}</td>
                         <td>{{item.pieces}}</td>
                         <td>{{item.price}}</td>
@@ -57,7 +57,7 @@
                         <td class="border">
                             <input class="addRow" disabled="disabled" value="+">
                         </td>
-                        <td><input class="addRow" name="delivery_date" v-model="item.delivery_date"></td>
+                        <td><input class="addRow" name="delivery_date " v-model="item.delivery_date"></td>
                         <td><input class="addRow" type="text" name="pattern" v-model="item.pattern"></td>
                         <td><input class="addRow" type="number" name="pieces" v-model="item.pieces"></td>
                         <td><input class="addRow" type="number" name="price" v-model="item.price"></td>

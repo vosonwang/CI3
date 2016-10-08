@@ -31,7 +31,7 @@ $(function () {
                     _self.remeber();
                     $.ajax({
                         type: 'POST',
-                        url: 'login/check',
+                        url: 'C_login/check',
                         data: _self.userinfo,
                         success: function (msg) {
                             /*console.log(msg);*/

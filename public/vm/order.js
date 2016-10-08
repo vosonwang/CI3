@@ -5,9 +5,9 @@ $(function () {
     var vue = new Vue({
         el: '#receiving',
         data: {
-            records: [],
-            new_records: [{}, {}, {}, {}, {}, {}, {}],
-            del_records: [],
+            Rec:[],
+            Rec_N: [{}, {}, {}, {}, {}, {}, {}],
+            Rec_D: [],
             orders: [],
             patterns: [],
             users: [],
@@ -21,7 +21,7 @@ $(function () {
             totalPieces: function () {
                 var _self = this;
                 var a = [];
-                $.each(_self.records, function (index, item) {
+                $.each(_self.Rec, function (index, item) {
                     var b = 0;
                     $.each(item.detail, function (key, value) {
                         b = b + parseInt(value.pieces);
@@ -33,7 +33,7 @@ $(function () {
             totaldelivery: function () {
                 var _self = this;
                 var a = [];
-                $.each(_self.records, function (index, item) {
+                $.each(_self.Rec, function (index, item) {
                     var b = 0;
                     a[item.id]=[];
                     $.each(item.detail, function (key, value) {
@@ -57,17 +57,17 @@ $(function () {
                 var _self = this;
                 $.ajax({
                     type: 'post',
-                    url: 'order_detail/getDetail',
+                    url: 'C_order_detail/getDetail',
                     success: function (data) {
                         if (JSON.parse(data)) {
-                            _self.records = JSON.parse(data);
+                            _self.Rec = JSON.parse(data);
                         }
                     }
                 });
             },
 
             //
-            getRecords: function (entity) {
+            getRec_N: function (entity) {
                 var _self = this;
                 var entity = entity;
                 $.ajax({
@@ -95,9 +95,9 @@ $(function () {
             insert: function () {
                 var _self = this;
 
-                //new_records是一个数组,其中的元素都是对象
+                //Rec_N是一个数组,其中的元素都是对象
                 //1.过滤用户输入的""， 2. 过滤空的行
-                var temp = this.new_records.filter(function (item) {
+                var temp = this.Rec_N.filter(function (item) {
                     for (var obj in item) {
                         if (item[obj] == '' || item[obj] == undefined) {
                             delete item[obj];
@@ -113,13 +113,13 @@ $(function () {
                     json = JSON.stringify(temp);
                     $.ajax({
                         type: 'POST',
-                        url: 'receiving/insert',
+                        url: 'C_receiving/insert',
                         data: {json: json},
                         success: function (msg) {
                             console.log(msg);
-                            $('#new_records').modal('hide');
+                            $('#Rec_N').modal('hide');
                             _self.show();
-                            _self.new_records = [{}, {}, {}, {}, {}, {}, {}];
+                            _self.Rec_N = [{}, {}, {}, {}, {}, {}, {}];
                         }
                     });
                 }
@@ -128,15 +128,15 @@ $(function () {
 
             deletePattern: function () {
                 var _self = this;
-                if (typeof(_self.del_records) != 'undefined') {
-                    var _json = JSON.stringify(_self.del_records);
+                if (typeof(_self.Rec_D) != 'undefined') {
+                    var _json = JSON.stringify(_self.Rec_D);
                     $.ajax({
                         type: 'POST',
-                        url: 'order_detail/delete',
+                        url: 'C_order_detail/delete',
                         data: {json: _json},
                         success: function (msg) {
                             _self.show();
-                            _self.del_records = [];
+                            _self.Rec_D = [];
                             _self.order_id = ""
                         }
                     })
@@ -155,29 +155,29 @@ $(function () {
                     //判断是否选中的订单之前已被选中
                     if (_self.order_id == item.id) {
 
-                        var index = _self.del_records.indexOf(value.id);
+                        var index = _self.Rec_D.indexOf(value.id);
 
                         //判断被选中的项目是否之前已被选中
                         if (index > -1) {
                             selector.removeClass("selected");
-                            _self.del_records.splice(index, 1);
+                            _self.Rec_D.splice(index, 1);
                         } else {
                             selector.addClass("selected");
-                            _self.del_records.push(value.id);
+                            _self.Rec_D.push(value.id);
                         }
                     } else {
-                        $.each(_self.del_records, function (i, n) {
+                        $.each(_self.Rec_D, function (i, n) {
                             $("#OP" + n).removeClass("selected");
                         });
-                        _self.del_records = [];
+                        _self.Rec_D = [];
                         _self.order_id = item.id;
-                        _self.del_records.push(value.id);
+                        _self.Rec_D.push(value.id);
                         selector.addClass("selected");
                     }
                 } else {
                     selector.addClass("selected");
                     _self.order_id = item.id;
-                    _self.del_records.push(value.id);
+                    _self.Rec_D.push(value.id);
                 }
 
             },
@@ -220,5 +220,9 @@ $(function () {
         minute = minute < 10 ? ('0' + minute) : minute;
         return m + '-' + d + ' ' + h + ':' + minute;
     })
+
+
+
+
 
 });

@@ -5,9 +5,9 @@ $(function () {
     var vue = new Vue({
         el: '#receiving',
         data: {
-            records: [],
-            new_records: [{}, {}, {}, {}, {}, {}, {}],
-            del_records: [],
+            Rec:[],
+            Rec_N: [{}, {}, {}, {}, {}, {}, {}],
+            Rec_D: [],
             orders: [],
             patterns: [],
             users: []
@@ -21,16 +21,16 @@ $(function () {
                 var _self = this;
                 $.ajax({
                     type: 'post',
-                    url: 'receiving/show',
+                    url: 'C_receiving/show',
                     success: function (data) {
                         if (JSON.parse(data)) {
-                            _self.records = JSON.parse(data);
+                            _self.Rec_N = JSON.parse(data);
                         }
                     }
                 });
             },
 
-            getRecords: function (entity) {
+            getRec_N: function (entity) {
                 var _self = this;
                 $.ajax({
                     type: 'post',
@@ -62,16 +62,16 @@ $(function () {
                 //根据input值，查找datalist中的id,实际是订单的id
                 var record_id = selector.siblings("datalist").find("option[value='" + value + "']").attr("name");
 
-                //将订单id存入new_records中
+                //将订单id存入Rec_N中
                 switch (entity) {
                     case 'order':
-                        this.new_records[index].order_id = record_id;
+                        this.Rec_N[index].order_id = record_id;
                         break;
                     case 'pattern':
-                        this.new_records[index].pattern_id = record_id;
+                        this.Rec_N[index].pattern_id = record_id;
                         break;
                     case 'user':
-                        this.new_records[index].user_id = record_id;
+                        this.Rec_N[index].user_id = record_id;
                         break;
                 }
 
@@ -81,9 +81,9 @@ $(function () {
             insert: function () {
                 var _self = this;
 
-                //new_records是一个数组,其中的元素都是对象
+                //Rec_N是一个数组,其中的元素都是对象
                 //1.过滤用户输入的""， 2. 过滤空的行
-                var temp = this.new_records.filter(function (item) {
+                var temp = this.Rec_N.filter(function (item) {
                     for (var obj in item) {
                         if (item[obj] == '' || item[obj]==undefined) {
                             delete item[obj];
@@ -99,13 +99,13 @@ $(function () {
                     json = JSON.stringify(temp);
                     $.ajax({
                         type: 'POST',
-                        url: 'receiving/insert',
+                        url: 'C_receiving/insert',
                         data: {json: json},
                         success: function (msg) {
                             console.log(msg);
-                            $('#new_records').modal('hide');
+                            $('#Rec_N').modal('hide');
                             _self.show();
-                            _self.new_records = [{}, {}, {}, {}, {}, {}, {}];
+                            _self.Rec_N = [{}, {}, {}, {}, {}, {}, {}];
                         }
                     });
                 }
@@ -114,14 +114,14 @@ $(function () {
 
             delete: function () {
                 var _self = this;
-                if (typeof(del_records) != 'undefined') {
+                if (typeof(Rec_D) != 'undefined') {
                     $.ajax({
                         type: 'POST',
-                        url: 'receiving/delete',
-                        data: {id: this.del_records},
+                        url: 'C_receiving/delete',
+                        data: {id: this.Rec_D},
                         success: function (msg) {
                             _self.show();
-                            _self.del_records = [];
+                            _self.Rec_D = [];
                             _self.id = ""
                         }
                     })
@@ -130,40 +130,53 @@ $(function () {
                 }
             },
 
+
+
             getId: function (item, e) {
+
+                //判断是否按住shift键进行多选
                 if (e.shiftKey == 1) {
-                    if (this.id != "") {
-                        var _new = arrObjIndex(item.id, this.records);
-                        var _old = arrObjIndex(this.id, this.records);
+
+                    //判断是否符合按下shift键之前已选中过一个元素,并且之前选的元素和当前的元素不同
+                    if (this.id != "" && this.id!=item.id) {
+                        var _new = arrObjIndex(item.id, this.Rec_N);
+                        var _old = arrObjIndex(this.id, this.Rec_N);
+
+                        //比较选中的两个元素的索引
                         if (_new > _old) {
+                            var selector;
                             for (var i = 1; i <= _new - _old; i++) {
-                                var selector = "#i" + this.records[i + _old].id;
+                                selector = "#i" + this.Rec_N[i + _old].id;
                                 $(selector).addClass("selected");
-                                this.del_records.push(this.records[i + _old].id);
+                                this.Rec_D.push(this.Rec_N[i + _old].id);
                             }
                             this.id = item.id;
                         } else {
                             for (i = 1; i <= _old - _new; i++) {
-                                selector = "#i" + this.records[_old - i].id;
+                                selector = "#i" + this.Rec_N[_old - i].id;
                                 $(selector).addClass("selected");
-                                this.del_records.push(this.records[_old - i].id);
+                                this.Rec_D.push(this.Rec_N[_old - i].id);
                             }
                             this.id = item.id;
                         }
-
                     }
                 } else {
-                    this.id = item.id;    //获取被点击行的id
                     selector = "#i" + item.id;
-                    if ($(selector).hasClass("selected")) {      //判断该行,之前是否是已经加上了选中效果
-                        $(selector).removeClass("selected");
-                        this.del_records.remove(item.id);
-                    } else {
+                    if(this.id != item.id ){
                         $(selector).addClass("selected");
-                        this.del_records.push(item.id);
+                        this.Rec_D.push(item.id);
+                        if(this.id!=""){
+                            $("#i" + this.id).removeClass("selected");
+                            this.Rec_D.remove(this.id);
+                        }
+                        this.id = item.id;
+                    }else{
+                        $(selector).removeClass("selected");
+                        this.Rec_D.remove(item.id);
+                        this.id=""
                     }
                 }
-            }
+            },
         }
     });
 
