@@ -14,7 +14,7 @@
             return $query -> result();
         }
 
-        function u_insert($arr) {
+        function insert($arr) {
             $this -> db -> insert('user', $arr);
         }
 
