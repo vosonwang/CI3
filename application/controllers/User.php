@@ -6,7 +6,7 @@
  * Date: 2016/9/22
  * Time: 0:41
  */
-class C_user extends Controller
+class user extends Controller
 {
     function show(){
         $this -> load -> model('M_user');

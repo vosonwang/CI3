@@ -7,7 +7,7 @@
  * Time: 9:40
  */
 
-class C_order_detail extends Controller
+class Order_detail extends Controller
 {
     function show(){
         $this -> load -> model('M_order');

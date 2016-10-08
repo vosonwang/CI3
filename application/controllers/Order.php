@@ -6,7 +6,7 @@
  * Date: 2016/9/21
  * Time: 23:05
  */
-class C_order extends Controller
+class Order extends Controller
 {
     function index(){
         $this -> load -> view('templates/header');

@@ -20,7 +20,7 @@
 <div style="background-color: white;vertical-align: middle;" id="header">
     <div style="height: 50px;display: inline-block;">
         <a href="C_receiving" style="text-decoration: none;font-size: 30px;margin-right: 20px;">收货记录</a>
-        <a href="C_delivery" style="text-decoration: none;font-size: 30px;margin-right: 20px;">发货记录</a>
+        <a href="Delivery" style="text-decoration: none;font-size: 30px;margin-right: 20px;">发货记录</a>
         <a href="C_order" style="text-decoration: none;font-size: 30px;margin-right: 20px;">订单</a>
         <a href="C_pattern" style="text-decoration: none;font-size: 30px;margin-right: 20px;">花型</a>
     </div>

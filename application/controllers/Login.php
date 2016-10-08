@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
-class C_login extends Controller {
+class Login extends Controller {
 
     public  function  index(){
         $this -> load -> view('templates/header');
@@ -16,7 +16,7 @@ class C_login extends Controller {
             if (password_verify($_POST['password'],$user[0] -> password)) {
                 $_SESSION['is_login']=1;
                 $_SESSION['user_name']=$user[0]->user_name;
-                $msg=[1,"window.location.href='C_delivery'"];
+                $msg=[1,"window.location.href='Delivery'"];
         } else {
                 $msg=[0,"密码错误！"];
             }
@@ -32,7 +32,7 @@ class C_login extends Controller {
     function logout() {
 
         session_destroy();
-        $msg="window.location.href='C_login'";
+        $msg="window.location.href='Login'";
         echo $msg;
     }
 

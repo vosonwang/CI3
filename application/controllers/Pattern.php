@@ -6,7 +6,7 @@
  * Date: 2016/9/22
  * Time: 0:38
  */
-class C_pattern extends Controller
+class Pattern extends Controller
 {
     function index(){
         $this -> load -> view('templates/header');

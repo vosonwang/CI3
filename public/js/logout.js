@@ -4,7 +4,7 @@
 function logout() {
     $.ajax({
         type: 'POST',
-        url: 'C_login/logout',
+        url: 'Login/logout',
         success: function (msg) {
                 eval(msg);
         }

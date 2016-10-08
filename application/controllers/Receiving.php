@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class C_receiving extends Controller
+class Receiving extends Controller
 {
     public function index()
     {
