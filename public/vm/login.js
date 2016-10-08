@@ -39,7 +39,7 @@ $(function () {
                             if(arr[0]==0){
                                 toastr.error(arr[1])
                             }else{
-                             eval(arr[1]);
+                                eval(arr[1]);
                             }
                         }
                     })
