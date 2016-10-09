@@ -142,7 +142,9 @@ $(function () {
 
             //更新
             edit:function () {
-                if(this.id!=""){
+                if(this.Rec_D.length!=1){
+                    toastr.info('请选择一条要编辑的记录！')
+                }else {
                     $('#edit_rec').modal('show');
                     $('#edit_rec').on('shown.bs.modal',function () {
                         $('#edited').focus();
@@ -156,8 +158,6 @@ $(function () {
                         }
                     });
                     $('#edited').val(_self.pat);
-                }else {
-                    toastr.info('请选择要编辑的记录！')
                 }
             },
 

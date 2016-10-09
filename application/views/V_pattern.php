@@ -101,7 +101,7 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="edited" v-model="Rec_U.pattern" @keyup.enter="update">
+                                <input type="text" class="form-control" id="edited"  @keyup.enter="update">
                             </div>
                         </div>
                     </div>

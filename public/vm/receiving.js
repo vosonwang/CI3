@@ -88,9 +88,9 @@ $(function () {
                     });
                     var _self=this;
                     var id=_self.Rec_D[0];
-                    $.each(_self.Rec,function (key,value) {
-                        if(value.id==id){
-                            _self.Rec_U=value;
+                    $.each(_self.Rec,function (a,b) {
+                        if(b.id==id){
+                            _self.Rec_U=b;
                             return false;
                         }
                     })
@@ -100,7 +100,8 @@ $(function () {
 
 
             update:function () {
-
+                var _self=this;
+                $('#edit_modal').modal('hide');
             },
 
             insert: function () {
@@ -201,7 +202,7 @@ $(function () {
                         this.id=""
                     }
                 }
-            },
+            }
         }
     });
 

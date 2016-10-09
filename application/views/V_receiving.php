@@ -148,8 +148,17 @@
                         <div class="form-group">
                             <label for="order_no" class="col-sm-2 control-label">单号</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="order_no" v-model="Rec_U.order_no" @keyup.enter="update">
+                                <input  type="text"  list="orders" class="form-control" id="order_no" @click="getRec('order')"
+                                         name="ord{{index}}" v-model="Rec_U.order_no" @keyup.enter="update">
+                                <datalist id="orders">
+                                    <template v-for="item in orders">
+                                        <option value={{item.order_no}} name={{item.id}}>
+                                    </template>
+                                </datalist>
                             </div>
+
+
+
                         </div>
                         <div class="form-group">
                             <label for="pattern" class="col-sm-2 control-label">花型</label>
