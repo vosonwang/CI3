@@ -3,7 +3,7 @@ class Login extends Controller {
 
     public  function  index(){
         $this -> load -> view('templates/header');
-        $this -> load -> view('login');
+        $this -> load -> view('V_login');
     }
 
     function check() {

@@ -3,7 +3,7 @@ class Delivery extends Controller{
     public  function  index(){
         $this -> load -> view('templates/header');
         $this -> load -> view('templates/nav');
-        $this -> load -> view('delivery');
+        $this -> load -> view('V_delivery');
     }
 
     function show(){

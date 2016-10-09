@@ -6,7 +6,7 @@ class Receiving extends Controller
     {
         $this->load->view('templates/header');
         $this->load->view('templates/nav');
-        $this->load->view('receiving');
+        $this->load->view('V_receiving');
     }
 
     function show()

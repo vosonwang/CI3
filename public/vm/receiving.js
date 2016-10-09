@@ -2,12 +2,13 @@
  * Created by Voson on 2016/8/29.
  */
 $(function () {
-    var vue = new Vue({
+    var receiving = new Vue({
         el: '#receiving',
         data: {
             Rec:[],
             Rec_N: [{}, {}, {}, {}, {}, {}, {}],
             Rec_D: [],
+            Rec_U:{},
             orders: [],
             patterns: [],
             users: []
@@ -21,16 +22,16 @@ $(function () {
                 var _self = this;
                 $.ajax({
                     type: 'post',
-                    url: 'C_receiving/show',
+                    url: 'Receiving/show',
                     success: function (data) {
                         if (JSON.parse(data)) {
-                            _self.Rec_N = JSON.parse(data);
+                            _self.Rec = JSON.parse(data);
                         }
                     }
                 });
             },
 
-            getRec_N: function (entity) {
+            getRec: function (entity) {
                 var _self = this;
                 $.ajax({
                     type: 'post',
@@ -77,6 +78,30 @@ $(function () {
 
             },
 
+            edit:function () {
+                if(this.Rec_D.length!=1){
+                    toastr.info('请选择一条要编辑的记录！')
+                }else{
+                    $('#edit_modal').modal('show');
+                    $('#edit_modal').on('shown.bs.modal',function () {
+                        $('#receipt_date').focus();
+                    });
+                    var _self=this;
+                    var id=_self.Rec_D[0];
+                    $.each(_self.Rec,function (key,value) {
+                        if(value.id==id){
+                            _self.Rec_U=value;
+                            return false;
+                        }
+                    })
+                }
+
+            },
+
+
+            update:function () {
+
+            },
 
             insert: function () {
                 var _self = this;
@@ -99,7 +124,7 @@ $(function () {
                     json = JSON.stringify(temp);
                     $.ajax({
                         type: 'POST',
-                        url: 'C_receiving/insert',
+                        url: 'Receiving/insert',
                         data: {json: json},
                         success: function (msg) {
                             console.log(msg);
@@ -117,7 +142,7 @@ $(function () {
                 if (typeof(Rec_D) != 'undefined') {
                     $.ajax({
                         type: 'POST',
-                        url: 'C_receiving/delete',
+                        url: 'Receiving/delete',
                         data: {id: this.Rec_D},
                         success: function (msg) {
                             _self.show();

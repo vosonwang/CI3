@@ -57,7 +57,7 @@ $(function () {
                 var _self = this;
                 $.ajax({
                     type: 'post',
-                    url: 'C_order_detail/getDetail',
+                    url: 'Order_detail/getDetail',
                     success: function (data) {
                         if (JSON.parse(data)) {
                             _self.Rec = JSON.parse(data);
@@ -113,7 +113,7 @@ $(function () {
                     json = JSON.stringify(temp);
                     $.ajax({
                         type: 'POST',
-                        url: 'C_receiving/insert',
+                        url: 'Receiving/insert',
                         data: {json: json},
                         success: function (msg) {
                             console.log(msg);
@@ -132,7 +132,7 @@ $(function () {
                     var _json = JSON.stringify(_self.Rec_D);
                     $.ajax({
                         type: 'POST',
-                        url: 'C_order_detail/delete',
+                        url: 'Order_detail/delete',
                         data: {json: _json},
                         success: function (msg) {
                             _self.show();

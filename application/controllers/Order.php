@@ -11,7 +11,7 @@ class Order extends Controller
     function index(){
         $this -> load -> view('templates/header');
         $this -> load -> view('templates/nav');
-        $this -> load -> view('order');
+        $this -> load -> view('V_order');
     }
 
     function show(){

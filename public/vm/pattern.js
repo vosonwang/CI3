@@ -9,7 +9,7 @@ $(function () {
     });
 
 
-    var vue = new Vue({
+    var pattern = new Vue({
         el: '#pattern',
         data: {
             id:"",
@@ -28,7 +28,7 @@ $(function () {
                 var _self = this;
                 $.ajax({
                     type: 'post',
-                    url: 'C_pattern/show',
+                    url: 'Pattern/show',
                     success: function (data) {
                         if (JSON.parse(data)) {
                             _self.Rec = JSON.parse(data);
@@ -59,7 +59,7 @@ $(function () {
                     var json = JSON.stringify(temp);
                     $.ajax({
                         type: 'POST',
-                        url: 'C_pattern/insert',
+                        url: 'Pattern/insert',
                         data: {json: json},
                         success: function (msg) {
                             $('#Rec_N').modal('hide');
@@ -79,7 +79,7 @@ $(function () {
                     var json = JSON.stringify(_self.Rec_D);
                     $.ajax({
                         type: 'POST',
-                        url: 'C_pattern/delete',
+                        url: 'Pattern/delete',
                         data: {json: json},
                         success: function (msg) {
                             _self.show();
@@ -167,7 +167,7 @@ $(function () {
                     var json = JSON.stringify(this.Rec_U);
                     $.ajax({
                         type: 'post',
-                        url: 'C_pattern/update',
+                        url: 'Pattern/update',
                         data: {json: json},
                         success: function (msg) {
                             $('#edit_rec').modal('hide');
