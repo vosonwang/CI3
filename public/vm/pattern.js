@@ -2,13 +2,6 @@
  * Created by Voson on 2016/8/29.
  */
 $(function () {
-
-
-    Vue.component('my-component', {
-        template: "<a href='javascript:void(0)'   style='color:black;'>编辑</a>"
-    });
-
-
     var pattern = new Vue({
         el: '#pattern',
         data: {
@@ -121,15 +114,21 @@ $(function () {
                     }
                 } else {
                         selector = "#i" + item.id;
-                        var bool=true;
+                        var bool=false;
                         var _self=this;
+
+                        //判断当前记录是否已被选中
                         $.each(_self.Rec_D,function (a,b) {
-                           if(item.id=b){
-                               bool=false;
+                           if(item.id==b){
+                               bool=true;
                                return false;
                            }
                         });
                         if(bool){
+                            $(selector).removeClass("selected");
+                            this.Rec_D.remove(item.id);
+                            this.id=""
+                        }else{
                             $(selector).addClass("selected");
                             this.Rec_D.push(item.id);
                             if(this.id!=""){
@@ -137,10 +136,6 @@ $(function () {
                                 this.Rec_D.remove(this.id);
                             }
                             this.id = item.id;
-                        }else{
-                            $(selector).removeClass("selected");
-                            this.Rec_D.remove(item.id);
-                            this.id=""
                         }
                 }
             },
@@ -179,6 +174,7 @@ $(function () {
                             $('#modal_edit').modal('hide');
                             _self.show();
                             _self.Rec_U = {};
+                            _self.Rec_D = [];
                             _self.id="";
                         }
                     });
