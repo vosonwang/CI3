@@ -12,7 +12,7 @@
                 <div class="pull-right" style="display: inline">
                     <button class="btn btn-default right" @click="delete">删除</button>
                     <button class="btn btn-default right"  data-target="#edit_records" @click="edit">编辑</button>
-                    <button class="btn btn-default right" data-toggle="modal" data-target="#Rec_N" >增加</button>
+                    <button class="btn btn-default right" data-toggle="modal" data-target="#modal_insert" >增加</button>
                 </div>
             </div>
         </div>
@@ -39,7 +39,7 @@
 
     </div>
 
-    <div class="modal fade " role="dialog" aria-labelledby="gridSystemModalLabel" id="Rec_N">
+    <div class="modal fade " role="dialog" aria-labelledby="gridSystemModalLabel" id="modal_insert">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -89,7 +89,7 @@
     </div><!-- /.modal -->
 
 
-    <div class="modal fade " role="dialog" aria-labelledby="gridSystemModalLabel" id="edit_rec">
+    <div class="modal fade " role="dialog" aria-labelledby="gridSystemModalLabel" id="modal_edit">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -101,7 +101,13 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="edited"  @keyup.enter="update">
+                                <input class="form-control" type="text"  list="patterns" v-model="Rec_U.pattern" id="edited"  @keyup.enter="update">
+                                <datalist id="patterns">
+                                    <template v-for="item in Rec">
+                                        <option value={{item.pattern}}>
+                                    </template>
+                                </datalist>
+                                <input class="form-control" type="hidden" value="{{Rec_U.id}}">
                             </div>
                         </div>
                     </div>

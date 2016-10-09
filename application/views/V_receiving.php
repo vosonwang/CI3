@@ -82,7 +82,7 @@
                                         <td><input class="addRow" v-model="item.receipt_date"></td>
                                         <td>
                                             <input class="addRow" type="text"  list="orders"
-                                                   @click="getRec('order')"
+                                                   @click="getList('order')"
                                                    @change="getRecordId(index,$event,'order')" name="ord{{index}}">
                                             <datalist id="orders">
                                                 <template v-for="item in orders">
@@ -92,7 +92,7 @@
                                         </td>
                                         <td>
                                             <input class="addRow" type="text"  list="patterns"
-                                                   @click="getRec('pattern')"
+                                                   @click="getList('pattern')"
                                                    @change="getRecordId(index,$event,'pattern')" name="pat{{index}}">
                                             <datalist id="patterns">
                                                 <template v-for="item in patterns">
@@ -104,7 +104,7 @@
                                         <td><input class="addRow" type="number" v-model="item.trips" ></td>
                                         <td>
                                             <input class="addRow" type="text"  list="users"
-                                                   @click="getRec('user')"
+                                                   @click="getList('user')"
                                                    @change="getRecordId(index,$event,'user')" name="user{{index}}">
                                             <datalist id="users">
                                                 <template v-for="item in users">
@@ -129,7 +129,7 @@
     </div><!-- /.modal -->
 
 
-    <div class="modal fade " role="dialog" aria-labelledby="gridSystemModalLabel" id="edit_modal">
+    <div class="modal fade " role="dialog" aria-labelledby="gridSystemModalLabel" id="modal_edit">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -148,22 +148,25 @@
                         <div class="form-group">
                             <label for="order_no" class="col-sm-2 control-label">单号</label>
                             <div class="col-sm-10">
-                                <input  type="text"  list="orders" class="form-control" id="order_no" @click="getRec('order')"
-                                         name="ord{{index}}" v-model="Rec_U.order_no" @keyup.enter="update">
+                                <input  type="text"  list="orders" class="form-control" id="order" @click="getList('order')"
+                                          v-model="Rec_U.order_no" @keyup.enter="update">
                                 <datalist id="orders">
                                     <template v-for="item in orders">
                                         <option value={{item.order_no}} name={{item.id}}>
                                     </template>
                                 </datalist>
                             </div>
-
-
-
                         </div>
                         <div class="form-group">
                             <label for="pattern" class="col-sm-2 control-label">花型</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="pattern" v-model="Rec_U.pattern" @keyup.enter="update">
+                                <input type="text" class="form-control"  list="patterns" @click="getList('pattern')"
+                                        name="pat{{index}}" v-model="Rec_U.pattern" @keyup.enter="update">
+                                <datalist id="patterns">
+                                    <template v-for="item in patterns">
+                                        <option value={{item.pattern}} name={{item.id}}>
+                                    </template>
+                                </datalist>
                             </div>
                         </div>
                         <div class="form-group">
@@ -181,7 +184,14 @@
                         <div class="form-group">
                             <label for="users" class="col-sm-2 control-label">发货人</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="users"  v-model="Rec_U.user_name" @keyup.enter="update">
+                                <input class="form-control" type="text"  list="users"  v-model="Rec_U.user_name" @keyup.enter="update"
+                                       @click="getList('user')"
+                                        name="user{{index}}">
+                                <datalist id="users">
+                                    <template v-for="item in users">
+                                        <option value={{item.user_name}} name={{item.user_id}}>
+                                    </template>
+                                </datalist>
                             </div>
                         </div>
                     </form>

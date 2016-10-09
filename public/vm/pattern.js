@@ -13,7 +13,6 @@ $(function () {
         el: '#pattern',
         data: {
             id:"",
-            pat:"",
             Rec: [],
             Rec_N: [{}, {}, {}, {}, {}, {}, {}],
             Rec_D: [],
@@ -62,7 +61,7 @@ $(function () {
                         url: 'Pattern/insert',
                         data: {json: json},
                         success: function (msg) {
-                            $('#Rec_N').modal('hide');
+                            $('#modal_insert').modal('hide');
                             _self.show();
                             _self.Rec_N = [{}, {}, {}, {}, {}, {}, {}];
                         }
@@ -99,30 +98,38 @@ $(function () {
 
                     //判断是否符合按下shift键之前已选中过一个元素,并且之前选的元素和当前的元素不同
                     if (this.id != "" && this.id!=item.id) {
-                            var _new = arrObjIndex(item.id, this.Rec_N);
-                            var _old = arrObjIndex(this.id, this.Rec_N);
+                            var _new = arrObjIndex(item.id, this.Rec);
+                            var _old = arrObjIndex(this.id, this.Rec);
 
                             //比较选中的两个元素的索引
                             if (_new > _old) {
                                 var selector;
                                 for (var i = 1; i <= _new - _old; i++) {
-                                    selector = "#i" + this.Rec_N[i + _old].id;
+                                    selector = "#i" + this.Rec[i + _old].id;
                                     $(selector).addClass("selected");
-                                    this.Rec_D.push(this.Rec_N[i + _old].id);
+                                    this.Rec_D.push(this.Rec[i + _old].id);
                                 }
                                 this.id = item.id;
                             } else {
                                 for (i = 1; i <= _old - _new; i++) {
-                                    selector = "#i" + this.Rec_N[_old - i].id;
+                                    selector = "#i" + this.Rec[_old - i].id;
                                     $(selector).addClass("selected");
-                                    this.Rec_D.push(this.Rec_N[_old - i].id);
+                                    this.Rec_D.push(this.Rec[_old - i].id);
                                 }
                                 this.id = item.id;
                             }
                     }
                 } else {
                         selector = "#i" + item.id;
-                        if(this.id != item.id ){
+                        var bool=true;
+                        var _self=this;
+                        $.each(_self.Rec_D,function (a,b) {
+                           if(item.id=b){
+                               bool=false;
+                               return false;
+                           }
+                        });
+                        if(bool){
                             $(selector).addClass("selected");
                             this.Rec_D.push(item.id);
                             if(this.id!=""){
@@ -144,25 +151,24 @@ $(function () {
             edit:function () {
                 if(this.Rec_D.length!=1){
                     toastr.info('请选择一条要编辑的记录！')
-                }else {
-                    $('#edit_rec').modal('show');
-                    $('#edit_rec').on('shown.bs.modal',function () {
-                        $('#edited').focus();
+                }else{
+                    $('#modal_edit').modal('show');
+                    $('#modal_edit').on('shown.bs.modal',function () {
+                        $('#receipt_date').focus();
                     });
                     var _self=this;
-                    $.each(_self.Rec,function (key,value) {
-                        if(value.id==_self.id){
-                            _self.Rec_U.id=value.id;
-                            _self.pat=value.pattern;
+                    var id=_self.Rec_D[0];
+                    $.each(_self.Rec,function (a,b) {
+                        if(b.id==id){
+                            _self.Rec_U=JSON.parse(JSON.stringify(b));
                             return false;
                         }
-                    });
-                    $('#edited').val(_self.pat);
+                    })
                 }
             },
 
             update:function () {
-                if(this.Rec_U.pattern!=undefined && this.Rec_U.pattern != this.pat){
+                if(this.Rec_U.pattern != "" ){
                     var _self=this;
                     var json = JSON.stringify(this.Rec_U);
                     $.ajax({
@@ -170,15 +176,14 @@ $(function () {
                         url: 'Pattern/update',
                         data: {json: json},
                         success: function (msg) {
-                            $('#edit_rec').modal('hide');
+                            $('#modal_edit').modal('hide');
                             _self.show();
                             _self.Rec_U = {};
                             _self.id="";
-                            _self.pat="";
                         }
                     });
                 }else {
-                    $('#edit_rec').modal('hide');
+                    $('#modal_edit').modal('hide');
                 }
             }
             

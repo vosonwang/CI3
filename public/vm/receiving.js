@@ -31,12 +31,14 @@ $(function () {
                 });
             },
 
-            getRec: function (entity) {
+            //获取订单、花型、用户表中的数据
+            getList: function (entity) {
                 var _self = this;
                 $.ajax({
                     type: 'post',
                     url: entity + "/show",
                     success: function (data) {
+                        //判断订单、花型、用户表是否无记录
                         if (JSON.parse(data)) {
                             switch (entity) {
                                 case "order":
@@ -78,30 +80,29 @@ $(function () {
 
             },
 
+
             edit:function () {
                 if(this.Rec_D.length!=1){
                     toastr.info('请选择一条要编辑的记录！')
                 }else{
-                    $('#edit_modal').modal('show');
-                    $('#edit_modal').on('shown.bs.modal',function () {
+                    $('#modal_edit').modal('show');
+                    $('#modal_edit').on('shown.bs.modal',function () {
                         $('#receipt_date').focus();
                     });
                     var _self=this;
                     var id=_self.Rec_D[0];
                     $.each(_self.Rec,function (a,b) {
                         if(b.id==id){
-                            _self.Rec_U=b;
+                            _self.Rec_U=JSON.parse(JSON.stringify(b));
                             return false;
                         }
                     })
                 }
-
             },
-
 
             update:function () {
                 var _self=this;
-                $('#edit_modal').modal('hide');
+                $('#modal_edit').modal('hide');
             },
 
             insert: function () {
