@@ -107,7 +107,6 @@
                                         <option value={{item.pattern}}>
                                     </template>
                                 </datalist>
-                                <input class="form-control" type="hidden" value="{{Rec_U.id}}">
                             </div>
                         </div>
                     </div>

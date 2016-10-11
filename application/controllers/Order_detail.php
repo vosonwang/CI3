@@ -41,5 +41,14 @@ class Order_detail extends Controller
         }
     }
 
+    function insert(){
+        $json=$this->input->post(null,true);
+        $json=json_decode($json['json'],true);
+        $this -> load -> model('M_order_detail');
+        foreach ($json as $item){
+            $this-> M_order_detail->insert($item);
+        }
+    }
+
 
 }

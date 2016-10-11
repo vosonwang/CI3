@@ -26,4 +26,9 @@ class M_order_detail extends CI_Model
         $this->db->delete('order_pattern', array('id' => $id));
     }
 
+    function insert($arr){
+        $this->db->insert('order_pattern', $arr);
+    }
+
+
 }

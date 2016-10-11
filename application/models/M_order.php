@@ -26,4 +26,13 @@ class M_order extends CI_Model
         $query=$this->db->get('orders');
         return $query -> row();
     }
+
+    function insert($arr){
+        $this->db->insert('orders', $arr);
+    }
+
+    function delete($id){
+        $this->db->where('id', $id);
+        $this->db->delete('orders');
+    }
 }

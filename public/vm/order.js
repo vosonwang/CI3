@@ -2,8 +2,8 @@
  * Created by Voson on 2016/8/29.
  */
 $(function () {
-    var vue = new Vue({
-        el: '#receiving',
+    var order = new Vue({
+        el: '#order',
         data: {
             Rec:[],
             Rec_N: [{}, {}, {}, {}, {}, {}, {}],
@@ -11,7 +11,9 @@ $(function () {
             orders: [],
             patterns: [],
             users: [],
-            order_id: ""
+            order_id: "",
+            new_pat:[{},{},{},{},{},{},{}],  //不能放{{}}
+            order_no:""
         },
         ready: function () {
             this.show();
@@ -27,24 +29,6 @@ $(function () {
                         b = b + parseInt(value.pieces);
                     });
                     a.push(b);
-                });
-                return a;
-            },
-            totaldelivery: function () {
-                var _self = this;
-                var a = [];
-                $.each(_self.Rec, function (index, item) {
-                    var b = 0;
-                    a[item.id]=[];
-                    $.each(item.detail, function (key, value) {
-                        if(value.totaldelivery!=null){
-                            b=parseInt(value.pieces)-parseInt(value.totaldelivery)
-
-                        }else {
-                            b="";
-                        }
-                    });
-                    a[item.id].push(b);
                 });
                 return a;
             }
@@ -113,7 +97,7 @@ $(function () {
                     json = JSON.stringify(temp);
                     $.ajax({
                         type: 'POST',
-                        url: 'Receiving/insert',
+                        url: 'Order/insert',
                         data: {json: json},
                         success: function (msg) {
                             console.log(msg);
@@ -125,10 +109,105 @@ $(function () {
                 }
             },
 
+            add:function (item) {
+                var _self=this;
+                _self.new_pat[0].order_id=item.id;
+                _self.order_no=item.order_no;     //换成new_pat.order_no就无法在页面上输出
+                $("#modal_addpat").modal("show");
+
+            },
+
+            insertPat:function () {
+                var _self=this;
+
+                var temp = this.new_pat.filter(function (item) {
+                    for (var obj in item) {
+                        if (item[obj] == '' || item[obj] == undefined) {
+                            delete item[obj];
+                        }
+                    }
+                    if (objLength(item) != 0) {
+                        return item;
+                    }
+                });
+
+                var i=0;
+                while (i<temp.length){
+                    temp[i].order_id=temp[0].order_id;
+                    i++;
+                }
+
+                if (temp.length != 0) {
+                    json = JSON.stringify(temp);
+                    $.ajax({
+                        type: 'POST',
+                        url: 'Order_detail/insert',
+                        data: {json: json},
+                        success: function (msg) {
+                            console.log(msg);
+                            $('#modal_addpat').modal('hide');
+                            _self.show();
+                            _self.new_pat = [{}, {}, {}, {}, {}, {}, {}];
+                        }
+                    });
+                }
+
+
+            },
+
+            //获取订单、花型、用户表中的数据
+            getList: function (entity) {
+                var _self = this;
+                $.ajax({
+                    type: 'post',
+                    url: entity + "/show",
+                    success: function (data) {
+                        //判断订单、花型、用户表是否无记录
+                        if (JSON.parse(data)) {
+                            switch (entity) {
+                                case "order":
+                                    _self.orders = JSON.parse(data);
+                                    break;
+                                case "pattern":
+                                    _self.patterns = JSON.parse(data);
+                                    break;
+                                case "user":
+                                    _self.users = JSON.parse(data);
+                                    break;
+                            }
+                        }
+                    }
+                });
+            },
+
+
+            getPatId:function(item,e){
+                var _self=this;
+                $.each(_self.patterns,function (a,b) {
+                    if(b.pattern==e.target.value){
+                        item.pattern_id=b.id;
+                        return false;
+                    }
+                })
+            },
+
+            remove:function (item) {
+                var _self = this;
+                $.ajax({
+                    type: 'POST',
+                    url: 'Order/delete',
+                    data: {id:item.id},
+                    success: function (msg) {
+                        _self.show();
+                        _self.Rec_D = [];
+                        _self.order_id = ""
+                    }
+                })
+            },
 
             deletePattern: function () {
                 var _self = this;
-                if (typeof(_self.Rec_D) != 'undefined') {
+                if (_self.Rec_D.length!= 0) {
                     var _json = JSON.stringify(_self.Rec_D);
                     $.ajax({
                         type: 'POST',
@@ -180,26 +259,6 @@ $(function () {
                     _self.Rec_D.push(value.id);
                 }
 
-            },
-
-            //为修改订单提供订单号
-            getOrderId: function (item) {
-                var _self = this;
-                var _new = "#O" + item.id;
-                var _old = "#O" + _self.order_id;
-                if (_self.order_id != "") {
-                    if (_self.order_id == item.id) {
-                        $(_new).removeClass("selectedOrder");
-                        _self.order_id = "";
-                    } else {
-                        $(_new).addClass("selectedOrder");
-                        $(_old).removeClass("selectedOrder");
-                        _self.order_id = item.id;
-                    }
-                } else {
-                    $(_new).addClass("selectedOrder");
-                    _self.order_id = item.id;
-                }
             }
         }
     });

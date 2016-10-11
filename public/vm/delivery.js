@@ -2,16 +2,13 @@
  * Created by voson on 16/8/10.
  */
 $(function () {
-
-
-    var vue = new Vue({
+    var delivery = new Vue({
         el: '#delivery',
         data: {
             id: "",               //每条发货记录在数据库中的Id
-            row: "",              //用户输入的增加行数
-            deliveries: [],       //从数据库中提取的发货记录
-            new_deliveries: [],     //新增发货记录的数组
-            delete_arr: []         //等待删除的发货记录数组
+            Rec: [],       //从数据库中提取的发货记录
+            Rec_N: [],     //新增发货记录的数组
+            Rec_D: []         //等待删除的发货记录数组
         },
         ready: function () {
             this.show();
@@ -26,7 +23,7 @@ $(function () {
                     url: 'Delivery/show',
                     success: function (data) {
                         if (JSON.parse(data)) {
-                            _self.deliveries = JSON.parse(data);
+                            _self.Rec = JSON.parse(data);
                         }
                         /*console.log(data)*/
                     }
@@ -50,7 +47,7 @@ $(function () {
                 });
 
                 if (temp!= 0) {
-                    json = JSON.stringify(_self.new_deliveries);
+                    json = JSON.stringify(_self.Rec_N);
                     $.ajax({
                         type: 'POST',
                         url: '../controller/insert.php',
@@ -58,7 +55,7 @@ $(function () {
                         success: function (msg) {
                             _self.moverow();
                             _self.show();
-                            _self.new_deliveries = [];
+                            _self.Rec_N = [];
                         }
                     });
                 }
@@ -73,10 +70,10 @@ $(function () {
                     $.ajax({
                         type: 'POST',
                         url: '../controller/delete.php',
-                        data: {id: this.delete_arr},
+                        data: {id: this.Rec_D},
                         success: function (msg) {
                             _self.show();
-                            _self.delete_arr = [];
+                            _self.Rec_D = [];
                             _self.id=""
                         }
                     })
@@ -93,30 +90,44 @@ $(function () {
 
                     //判断是否符合按下shift键之前已选中过一个元素,并且之前选的元素和当前的元素不同
                     if (this.id != "" && this.id!=item.id) {
-                        var _new = arrObjIndex(item.id, this.Rec_N);
-                        var _old = arrObjIndex(this.id, this.Rec_N);
+                        var _new = arrObjIndex(item.id, this.Rec);
+                        var _old = arrObjIndex(this.id, this.Rec);
 
                         //比较选中的两个元素的索引
                         if (_new > _old) {
                             var selector;
                             for (var i = 1; i <= _new - _old; i++) {
-                                selector = "#i" + this.Rec_N[i + _old].id;
+                                selector = "#i" + this.Rec[i + _old].id;
                                 $(selector).addClass("selected");
-                                this.Rec_D.push(this.Rec_N[i + _old].id);
+                                this.Rec_D.push(this.Rec[i + _old].id);
                             }
                             this.id = item.id;
                         } else {
                             for (i = 1; i <= _old - _new; i++) {
-                                selector = "#i" + this.Rec_N[_old - i].id;
+                                selector = "#i" + this.Rec[_old - i].id;
                                 $(selector).addClass("selected");
-                                this.Rec_D.push(this.Rec_N[_old - i].id);
+                                this.Rec_D.push(this.Rec[_old - i].id);
                             }
                             this.id = item.id;
                         }
                     }
                 } else {
                     selector = "#i" + item.id;
-                    if(this.id != item.id ){
+                    var bool=false;
+                    var _self=this;
+
+                    //判断当前记录是否已被选中
+                    $.each(_self.Rec_D,function (a,b) {
+                        if(item.id==b){
+                            bool=true;
+                            return false;
+                        }
+                    });
+                    if(bool){
+                        $(selector).removeClass("selected");
+                        this.Rec_D.remove(item.id);
+                        this.id=""
+                    }else{
                         $(selector).addClass("selected");
                         this.Rec_D.push(item.id);
                         if(this.id!=""){
@@ -124,53 +135,29 @@ $(function () {
                             this.Rec_D.remove(this.id);
                         }
                         this.id = item.id;
-                    }else{
-                        $(selector).removeClass("selected");
-                        this.Rec_D.remove(item.id);
-                        this.id=""
                     }
                 }
             },
 
             showmodal: function () {
                 $('#addrow_modal').modal('show');   //打开增加行数的模态框
-                this.delete_arr = [];
+                this.Rec_D = [];
             },
 
-            //增加行
-            addrow: function () {
 
-                var _self = this;
-                var N = this.new_deliveries;
-
-                if (N.length != 0) {
-                    this.insert();
-                }
-                if (_self.row != "") {        //判断输入的行数是否为空
-                    for (var i = 0; i < parseInt(_self.row); i++) {
-                        this.new_deliveries.$set(i, {});
-                    }
-                    _self.changeSequence();
-                }
-
-                $('#addrow_modal').modal('hide');//打开增加行数的模态框
-
-                _self.id = "";
-
-            },
 
             moverow: function () {
-                /* console.log(this.new_deliveries.length);*/
+                /* console.log(this.Rec_N.length);*/
                 var i = 0;
-                while (i < this.new_deliveries.length) {
-                    this.new_deliveries.$remove(this.new_deliveries[i]);
+                while (i < this.Rec_N.length) {
+                    this.Rec_N.$remove(this.Rec_N[i]);
                 }
             },
 
             changeSequence: function () {
                 var _self = this;
-                var D = this.deliveries;
-                var N = this.new_deliveries;
+                var D = this.Rec;
+                var N = this.Rec_N;
 
                 if (_self.id != "") {   //判断是否选中了元素
                     var left = parseFloat(arrObjProp(_self.id, "sequence", D));    //获取被选中的行在现有发货记录中的序号

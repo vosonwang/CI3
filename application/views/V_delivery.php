@@ -34,7 +34,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <template v-for="(index,item) in deliveries ">
+                <template v-for="(index,item) in Rec">
                     <tr @click="getId(item,$event)" id="i{{item.id}}">
                         <th class="border text-center change_to_add">{{index+1}}</th>
                         <td>{{item.delivery_date | dateFormat}}</td>

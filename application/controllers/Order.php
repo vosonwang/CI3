@@ -19,4 +19,21 @@ class Order extends Controller
         $dates=$this-> M_order->show();
         echo json_encode($dates);
     }
+
+    function insert(){
+        $json=$this->input->post(null,true);
+        $json=json_decode($json['json'],true);
+        $this -> load -> model('M_order');
+        foreach ($json as $item){
+            $this-> M_order->insert($item);
+        }
+    }
+
+    function delete(){
+        $id=$this->input->post(null,true);
+        $this -> load -> model('M_order');
+        $this-> M_order->delete($id['id']);
+    }
+
+
 }
