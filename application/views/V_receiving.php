@@ -12,7 +12,7 @@
                 <div class="pull-right" style="display: inline">
 
                     <button class="btn btn-default right" @click="delete">删除</button>
-                    <button class="btn btn-default right" data-toggle="modal" data-target="#Rec_N">增加</button>
+                    <button class="btn btn-default right" data-toggle="modal" data-target="#modal_insert">增加</button>
                     <button class="btn btn-default right" data-toggle="modal" @click="edit">编辑</button>
                 </div>
             </div>
@@ -49,7 +49,7 @@
 
     </div>
 
-    <div class="modal fade " role="dialog" aria-labelledby="gridSystemModalLabel" id="Rec_N">
+    <div class="modal fade " role="dialog" aria-labelledby="gridSystemModalLabel" id="modal_insert">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">

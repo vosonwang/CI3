@@ -130,7 +130,7 @@ $(function () {
                         data: {json: json},
                         success: function (msg) {
                             console.log(msg);
-                            $('#Rec_N').modal('hide');
+                            $('#modal_insert').modal('hide');
                             _self.show();
                             _self.Rec_N = [{}, {}, {}, {}, {}, {}, {}];
                         }
