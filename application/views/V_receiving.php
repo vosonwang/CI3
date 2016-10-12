@@ -33,7 +33,7 @@
                 </thead>
                 <tbody>
                 <template v-for="(index,item) in Rec | orderBy 'receipt_date' ">
-                    <tr @click="getId(item,$event)" id="i{{item.id}}">
+                    <tr @click="select(item,$event)" id="i{{item.id}}">
                         <th class="border text-center">{{index+1}}</th>
                         <td>{{item.receipt_date | dateFormat}}</td>
                         <td>{{item.order_no}}</td>

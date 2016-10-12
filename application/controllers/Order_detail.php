@@ -10,9 +10,6 @@
 class Order_detail extends Controller
 {
     function show(){
-        $this -> load -> model('M_order');
-        $orders=$this-> M_order->show();
-
         $this -> load -> model('M_order_detail');
         $dates=$this-> M_order_detail->show();
         echo json_encode($dates);
@@ -26,8 +23,6 @@ class Order_detail extends Controller
         foreach ($orders as $item){
             $dates=$this-> M_order_detail->order_detail($item->order_no);
             $item->detail=$dates;
-            
-
         }
 
         echo json_encode($orders);

@@ -16,7 +16,7 @@ class M_order_detail extends CI_Model
 
 
     function order_detail($order_no){
-        $this->db->select('pattern,pieces,totaldelivery');
+        $this->db->select('pattern,pieces,totaldelivery,pattern_id');
         $this->db->where('order_no', $order_no);
         $query=$this->db->get('v_order_detail');
         return $query -> result();

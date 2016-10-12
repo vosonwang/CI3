@@ -5,15 +5,15 @@ $(function () {
     var order = new Vue({
         el: '#order',
         data: {
-            Rec:[],
+            Rec: [],
             Rec_N: [{}, {}, {}, {}, {}, {}, {}],
             Rec_D: [],
             orders: [],
             patterns: [],
             users: [],
             order_id: "",
-            new_pat:[{},{},{},{},{},{},{}],  //不能放{{}}
-            order_no:""
+            new_pat: [{}, {}, {}, {}, {}, {}, {}],  //不能放{{}}
+            order_no: ""
         },
         ready: function () {
             this.show();
@@ -109,16 +109,16 @@ $(function () {
                 }
             },
 
-            add:function (item) {
-                var _self=this;
-                _self.new_pat[0].order_id=item.id;
-                _self.order_no=item.order_no;     //换成new_pat.order_no就无法在页面上输出
+            add: function (item) {
+                var _self = this;
+                _self.new_pat[0].order_id = item.id;
+                _self.order_no = item.order_no;     //换成new_pat.order_no就无法在页面上输出
                 $("#modal_addpat").modal("show");
 
             },
 
-            insertPat:function () {
-                var _self=this;
+            insertPat: function () {
+                var _self = this;
 
                 var temp = this.new_pat.filter(function (item) {
                     for (var obj in item) {
@@ -131,9 +131,9 @@ $(function () {
                     }
                 });
 
-                var i=0;
-                while (i<temp.length){
-                    temp[i].order_id=temp[0].order_id;
+                var i = 0;
+                while (i < temp.length) {
+                    temp[i].order_id = temp[0].order_id;
                     i++;
                 }
 
@@ -181,22 +181,22 @@ $(function () {
             },
 
 
-            getPatId:function(item,e){
-                var _self=this;
-                $.each(_self.patterns,function (a,b) {
-                    if(b.pattern==e.target.value){
-                        item.pattern_id=b.id;
+            getPatId: function (item, e) {
+                var _self = this;
+                $.each(_self.patterns, function (a, b) {
+                    if (b.pattern == e.target.value) {
+                        item.pattern_id = b.id;
                         return false;
                     }
                 })
             },
 
-            remove:function (item) {
+            remove: function (item) {
                 var _self = this;
                 $.ajax({
                     type: 'POST',
                     url: 'Order/delete',
-                    data: {id:item.id},
+                    data: {id: item.id},
                     success: function (msg) {
                         _self.show();
                         _self.Rec_D = [];
@@ -207,7 +207,7 @@ $(function () {
 
             deletePattern: function () {
                 var _self = this;
-                if (_self.Rec_D.length!= 0) {
+                if (_self.Rec_D.length != 0) {
                     var _json = JSON.stringify(_self.Rec_D);
                     $.ajax({
                         type: 'POST',
@@ -225,38 +225,60 @@ $(function () {
             },
 
 
-            getOPId: function (value, item) {
+            select: function (value, item) {
                 var _self = this;
-                var selector = $("#OP" + value.id);
+                var selector = $("#OP" +item.id +value.pattern_id);
 
                 //判断是否已有订单被选中
                 if (_self.order_id != "") {
                     //判断是否选中的订单之前已被选中
-                    if (_self.order_id == item.id) {
+                    if (_self.order_id == item.id ) {
 
-                        var index = _self.Rec_D.indexOf(value.id);
+                        //当前订单是之前选中的订单，并且被选的记录已被选中
+                        if (selector.attr('name')=="selected") {
 
-                        //判断被选中的项目是否之前已被选中
-                        if (index > -1) {
+                            //移除选中记录的样式
                             selector.removeClass("selected");
+
+                            //标记选中记录的状态为未选中
+                            selector.removeAttr("name");
+
+                            //将选中的记录从（Rec_D)已选中记录中移除
+                            var index = undefined;
+                            $.each(_self.Rec_D, function (a, b) {
+                                if (b.order_id == item.id) {
+                                    index = a;
+                                    return false;
+                                }
+                            });
                             _self.Rec_D.splice(index, 1);
+
+
+
                         } else {
                             selector.addClass("selected");
-                            _self.Rec_D.push(value.id);
+                            selector.attr("name","selected");
+                            _self.Rec_D.push({"pattern_id": value.pattern_id, "order_id": item.id});
                         }
+
+                        //当前选择的订单是新的订单
                     } else {
                         $.each(_self.Rec_D, function (i, n) {
-                            $("#OP" + n).removeClass("selected");
+                            $("#OP" +n.order_id +n.pattern_id).removeClass("selected");
+                            $("#OP" +n.order_id +n.pattern_id).removeAttr("name");
                         });
                         _self.Rec_D = [];
                         _self.order_id = item.id;
-                        _self.Rec_D.push(value.id);
+                        _self.Rec_D.push({"pattern_id": value.pattern_id, "order_id": item.id});
                         selector.addClass("selected");
+                        selector.attr("name","selected");
                     }
                 } else {
                     selector.addClass("selected");
+                    selector.attr("name","selected");
                     _self.order_id = item.id;
-                    _self.Rec_D.push(value.id);
+                    _self.Rec_D.push({"pattern_id": value.pattern_id, "order_id": item.id});
+                    value.status = 1;
                 }
 
             }
@@ -279,9 +301,6 @@ $(function () {
         minute = minute < 10 ? ('0' + minute) : minute;
         return m + '-' + d + ' ' + h + ':' + minute;
     })
-
-
-
 
 
 });

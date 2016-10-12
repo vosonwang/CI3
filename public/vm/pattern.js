@@ -84,7 +84,7 @@ $(function () {
                 }
             },
 
-            getId: function (item, e) {
+            select: function (item, e) {
 
                 //判断是否按住shift键进行多选
                 if (e.shiftKey == 1) {
@@ -131,10 +131,6 @@ $(function () {
                         }else{
                             $(selector).addClass("selected");
                             this.Rec_D.push(item.id);
-                            if(this.id!=""){
-                                $("#i" + this.id).removeClass("selected");
-                                this.Rec_D.remove(this.id);
-                            }
                             this.id = item.id;
                         }
                 }

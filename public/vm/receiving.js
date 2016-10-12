@@ -141,7 +141,7 @@ $(function () {
 
             delete: function () {
                 var _self = this;
-                if (typeof(Rec_D) != 'undefined') {
+                if (_self.Rec_D.length != 0) {
                     $.ajax({
                         type: 'POST',
                         url: 'Receiving/delete',
@@ -159,51 +159,61 @@ $(function () {
 
 
 
-            getId: function (item, e) {
+            select: function (item, e) {
 
                 //判断是否按住shift键进行多选
                 if (e.shiftKey == 1) {
 
                     //判断是否符合按下shift键之前已选中过一个元素,并且之前选的元素和当前的元素不同
                     if (this.id != "" && this.id!=item.id) {
-                        var _new = arrObjIndex(item.id, this.Rec_N);
-                        var _old = arrObjIndex(this.id, this.Rec_N);
+                        var _new = arrObjIndex(item.id, this.Rec);
+                        var _old = arrObjIndex(this.id, this.Rec);
 
                         //比较选中的两个元素的索引
                         if (_new > _old) {
                             var selector;
                             for (var i = 1; i <= _new - _old; i++) {
-                                selector = "#i" + this.Rec_N[i + _old].id;
+                                selector = "#i" + this.Rec[i + _old].id;
                                 $(selector).addClass("selected");
-                                this.Rec_D.push(this.Rec_N[i + _old].id);
+                                this.Rec_D.push(this.Rec[i + _old].id);
                             }
                             this.id = item.id;
                         } else {
                             for (i = 1; i <= _old - _new; i++) {
-                                selector = "#i" + this.Rec_N[_old - i].id;
+                                selector = "#i" + this.Rec[_old - i].id;
                                 $(selector).addClass("selected");
-                                this.Rec_D.push(this.Rec_N[_old - i].id);
+                                this.Rec_D.push(this.Rec[_old - i].id);
                             }
                             this.id = item.id;
                         }
                     }
                 } else {
                     selector = "#i" + item.id;
-                    if(this.id != item.id ){
-                        $(selector).addClass("selected");
-                        this.Rec_D.push(item.id);
-                        if(this.id!=""){
-                            $("#i" + this.id).removeClass("selected");
-                            this.Rec_D.remove(this.id);
+                    var bool=false;
+                    var _self=this;
+
+                    //判断当前记录是否已被选中
+                    $.each(_self.Rec_D,function (a,b) {
+                        if(item.id==b){
+                            bool=true;
+                            return false;
                         }
-                        this.id = item.id;
-                    }else{
+                    });
+                    if(bool){
                         $(selector).removeClass("selected");
                         this.Rec_D.remove(item.id);
                         this.id=""
+                    }else{
+                        $(selector).addClass("selected");
+                        this.Rec_D.push(item.id);
+                        this.id = item.id;
                     }
                 }
             }
+
+
+
+
         }
     });
 
