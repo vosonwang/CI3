@@ -23,7 +23,7 @@
                 <thead>
                 <tr>
                     <th class="text-center border">No</th>
-                    <th class="text-center">收货日期</th>
+                    <th class="text-center">日期</th>
                     <th class="text-center">单号</th>
                     <th class="text-center">花型</th>
                     <th class="text-center">条数</th>
@@ -65,7 +65,7 @@
                                 <thead>
                                 <tr>
                                     <th class="text-center border">No</th>
-                                    <th class="text-center">收货日期</th>
+                                    <th class="text-center">日期</th>
                                     <th class="text-center">单号</th>
                                     <th class="text-center">花型</th>
                                     <th class="text-center">条数</th>
@@ -76,9 +76,7 @@
                                 <tbody>
                                 <template v-for="(index,item) in Rec_N ">
                                     <tr>
-                                        <td class="border">
-                                            <input class="addRow" disabled="disabled" value={{index+1}}>
-                                        </td>
+                                        <td class="border">{{index+1}}</td>
                                         <td><input class="addRow" v-model="item.receipt_date"></td>
                                         <td>
                                             <input class="addRow" type="text"  list="orders"

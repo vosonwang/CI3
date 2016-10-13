@@ -13,6 +13,11 @@ class M_delivery extends CI_Model
         return $query -> result();
     }
 
-
+    function save($arr){
+        $this->db->set('price', $arr['price'], FALSE);
+        $this->db->where('id', $arr['id']);
+        $bool=$this->db->update('deliveries');
+        return $bool;
+    }
 
 }

@@ -9,16 +9,13 @@
                 <h4 style="margin-bottom: 0;font-weight: bold;width: 100px;display:inline">收货记录</h4>
 
                 <div class="pull-right" style="display: inline">
-                    <button class="btn btn-default right" @click="delete">删除</button>
-                    <button class="btn btn-default right"  data-target="#edit_records" @click="edit">编辑</button>
-                    <button class="btn btn-default right" data-toggle="modal" data-target="#modal_insert" >增加</button>
+                    <button class="btn btn-default right" @click="save">保存</button>
                 </div>
             </div>
         </div>
 
         <div class="col-xs-12">
-            <table
-                class="table table-striped table-bordered table-hover table-bordersed table-condensed text-center unselectable">
+            <table class="table table-striped table-bordered table-hover table-bordersed table-condensed text-center unselectable">
                 <thead>
                 <tr>
                     <th class="text-center border">No</th>
@@ -35,12 +32,12 @@
                 </thead>
                 <tbody>
                 <template v-for="(index,item) in Rec">
-                    <tr @click="getId(item,$event)" id="i{{item.id}}">
+                    <tr id="i{{item.id}}">
                         <th class="border text-center change_to_add">{{index+1}}</th>
                         <td>{{item.delivery_date | dateFormat}}</td>
                         <td>{{item.pattern}}</td>
                         <td>{{item.pieces}}</td>
-                        <td>{{item.price}}</td>
+                        <td><input class="addRow" name="delivery_date " v-model="item.price"></td>
                         <td v-if="item.price!=null&&item.pieces!=null&&item.price!=''&&item.pieces!=''">
                             {{item.price*item.pieces}}
                         </td>
@@ -51,193 +48,10 @@
                         <td>{{item.address}}</td>
                     </tr>
                 </template>
-
-                <template v-for="(index,item) in new_deliveries ">
-                    <tr>
-                        <td class="border">
-                            <input class="addRow" disabled="disabled" value="+">
-                        </td>
-                        <td><input class="addRow" name="delivery_date " v-model="item.delivery_date"></td>
-                        <td><input class="addRow" type="text" name="pattern" v-model="item.pattern"></td>
-                        <td><input class="addRow" type="number" name="pieces" v-model="item.pieces"></td>
-                        <td><input class="addRow" type="number" name="price" v-model="item.price"></td>
-                        <td>
-                            <input class="addRow" name="amount"
-                                   v-if="item.price!=null&&item.pieces!=null&&item.price!=''&&item.pieces!=''"
-                                   value="{{item.pieces*item.price}}" disabled="disabled">
-                            <input class="addRow" name="amount" v-else disabled="disabled">
-                        </td>
-                        <td><input class="addRow" type="number" name="packages" v-model="item.packages"></td>
-                        <td><input class="addRow" type="text" name="consignee " v-model="item.consignee"></td>
-                        <td><input class="addRow" type="text" name="orders" v-model="item.orders"></td>
-                        <td><input class="addRow" type="text" name="address" v-model="item.address"></td>
-                    </tr>
-                </template>
                 </tbody>
             </table>
         </div>
-
     </div>
-
-
-
-    <div class="modal fade " role="dialog" aria-labelledby="gridSystemModalLabel" id="modal_insert">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="gridSystemModalLabel">收货</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <table
-                                class="table table-striped table-bordered table-hover table-bordersed table-condensed text-center unselectable">
-                                <thead>
-                                <tr>
-                                    <th class="text-center border">No</th>
-                                    <th class="text-center">收货日期</th>
-                                    <th class="text-center">单号</th>
-                                    <th class="text-center">花型</th>
-                                    <th class="text-center">条数</th>
-                                    <th class="text-center">匹数</th>
-                                    <th class="text-center">发货人</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <template v-for="(index,item) in Rec_N ">
-                                    <tr>
-                                        <td class="border">
-                                            <input class="addRow" disabled="disabled" value={{index+1}}>
-                                        </td>
-                                        <td><input class="addRow" v-model="item.receipt_date"></td>
-                                        <td>
-                                            <input class="addRow" type="text"  list="orders"
-                                                   @click="getList('order')"
-                                                   @change="getRecordId(index,$event,'order')" name="ord{{index}}">
-                                            <datalist id="orders">
-                                                <template v-for="item in orders">
-                                                    <option value={{item.order_no}} name={{item.id}}>
-                                                </template>
-                                            </datalist>
-                                        </td>
-                                        <td>
-                                            <input class="addRow" type="text"  list="patterns"
-                                                   @click="getList('pattern')"
-                                                   @change="getRecordId(index,$event,'pattern')" name="pat{{index}}">
-                                            <datalist id="patterns">
-                                                <template v-for="item in patterns">
-                                                    <option value={{item.pattern}} name={{item.id}}>
-                                                </template>
-                                            </datalist>
-                                        </td>
-                                        <td><input class="addRow" type="number" v-model="item.pieces" ></td>
-                                        <td><input class="addRow" type="number" v-model="item.trips" ></td>
-                                        <td>
-                                            <input class="addRow" type="text"  list="users"
-                                                   @click="getList('user')"
-                                                   @change="getRecordId(index,$event,'user')" name="user{{index}}">
-                                            <datalist id="users">
-                                                <template v-for="item in users">
-                                                    <option value={{item.user_name}} name={{item.user_id}}>
-                                                </template>
-                                            </datalist>
-                                        </td>
-                                    </tr>
-                                </template>
-                                </tbody>
-                            </table>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" @click="insert">确认</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
-
-
-    <div class="modal fade " role="dialog" aria-labelledby="gridSystemModalLabel" id="modal_edit">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="gridSystemModalLabel">收货</h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal" role="form">
-                        <div class="form-group">
-                            <label for="receipt_date" class="col-sm-2 control-label">收货日期</label>
-                            <div class="col-sm-10">
-                                <input type="datetime" class="form-control" id="receipt_date" v-model="Rec_U.receipt_date" @keyup.enter="update">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="order_no" class="col-sm-2 control-label">单号</label>
-                            <div class="col-sm-10">
-                                <input  type="text"  list="orders" class="form-control" id="order" @click="getList('order')"
-                                        v-model="Rec_U.order_no" @keyup.enter="update">
-                                <datalist id="orders">
-                                    <template v-for="item in orders">
-                                        <option value={{item.order_no}} name={{item.id}}>
-                                    </template>
-                                </datalist>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="pattern" class="col-sm-2 control-label">花型</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control"  list="patterns" @click="getList('pattern')"
-                                       name="pat{{index}}" v-model="Rec_U.pattern" @keyup.enter="update">
-                                <datalist id="patterns">
-                                    <template v-for="item in patterns">
-                                        <option value={{item.pattern}} name={{item.id}}>
-                                    </template>
-                                </datalist>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="pieces" class="col-sm-2 control-label">条数</label>
-                            <div class="col-sm-10">
-                                <input type="number" class="form-control" id="pieces" v-model="Rec_U.pieces" @keyup.enter="update">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="trips" class="col-sm-2 control-label">匹数</label>
-                            <div class="col-sm-10">
-                                <input type="number" class="form-control" id="trips" v-model="Rec_U.trips" @keyup.enter="update">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="users" class="col-sm-2 control-label">发货人</label>
-                            <div class="col-sm-10">
-                                <input class="form-control" type="text"  list="users"  v-model="Rec_U.user_name" @keyup.enter="update"
-                                       @click="getList('user')"
-                                       name="user{{index}}">
-                                <datalist id="users">
-                                    <template v-for="item in users">
-                                        <option value={{item.user_name}} name={{item.user_id}}>
-                                    </template>
-                                </datalist>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" @click="update">确认</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div>
-
-
 </div>
 
 <script src="public/vm/delivery.js"></script>
