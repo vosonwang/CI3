@@ -15,4 +15,8 @@ class M_receiving extends CI_Model{
     function insert($arr){
         $this->db->insert('receiving', $arr);
     }
+
+    function remove($id){
+        $this->db->delete('receiving', array('id' => $id));
+    }
 }

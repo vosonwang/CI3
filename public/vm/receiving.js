@@ -123,11 +123,10 @@ $(function () {
 
 
                 if (temp != 0) {
-                    json = JSON.stringify(temp);
                     $.ajax({
                         type: 'POST',
                         url: 'Receiving/insert',
-                        data: {json: json},
+                        data: {json: JSON.stringify(temp)},
                         success: function (msg) {
                             console.log(msg);
                             $('#modal_insert').modal('hide');
@@ -144,8 +143,8 @@ $(function () {
                 if (_self.Rec_D.length != 0) {
                     $.ajax({
                         type: 'POST',
-                        url: 'Receiving/delete',
-                        data: {id: this.Rec_D},
+                        url: 'Receiving/remove',
+                        data: {json: JSON.stringify(this.Rec_D)},
                         success: function (msg) {
                             _self.show();
                             _self.Rec_D = [];

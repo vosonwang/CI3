@@ -27,13 +27,13 @@ class Receiving extends Controller
 
     }
 
-    function delete()
+    function remove()
     {
         $this->load->model('M_receiving');
         $json = ($this->input->post(NULL, TRUE));
-        $dates = json_decode($json['json']);
-        foreach ($dates as $item) {
-            $this->M_receiving->insert($item);
+        $json = json_decode($json['json']);
+        foreach ($json as $id) {
+            $this->M_receiving->remove($id);
         }
     }
 }
