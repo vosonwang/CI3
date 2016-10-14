@@ -80,11 +80,11 @@
                                         <td><input class="addRow" v-model="item.receipt_date"></td>
                                         <td>
                                             <input class="addRow" type="text"  list="orders"
-                                                   @click="getList('order')"
+
                                                    @change="getRecordId(index,$event,'order')" name="ord{{index}}">
                                             <datalist id="orders">
-                                                <template v-for="item in orders">
-                                                    <option value={{item.order_no}} name={{item.id}}>
+                                                <template v-for="item in order_nos">
+                                                    <option value={{item.order_no}} >
                                                 </template>
                                             </datalist>
                                         </td>

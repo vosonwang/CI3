@@ -48,11 +48,10 @@ $(function () {
 
 
                 if (temp != 0) {
-                    var json = JSON.stringify(temp);
                     $.ajax({
                         type: 'POST',
                         url: 'Pattern/insert',
-                        data: {json: json},
+                        data: {json: JSON.stringify(temp)},
                         success: function (msg) {
                             $('#modal_insert').modal('hide');
                             _self.show();
@@ -68,11 +67,10 @@ $(function () {
 
                 //判断是否选择了要删除的数据
                 if (typeof(_self.Rec_D[0]) != 'undefined') {
-                    var json = JSON.stringify(_self.Rec_D);
                     $.ajax({
                         type: 'POST',
                         url: 'Pattern/delete',
-                        data: {json: json},
+                        data: {json: JSON.stringify(_self.Rec_D)},
                         success: function (msg) {
                             _self.show();
                             _self.Rec_D = [];
@@ -161,11 +159,10 @@ $(function () {
             update:function () {
                 if(this.Rec_U.pattern != "" ){
                     var _self=this;
-                    var json = JSON.stringify(this.Rec_U);
                     $.ajax({
                         type: 'post',
                         url: 'Pattern/update',
-                        data: {json: json},
+                        data: {json: JSON.stringify(this.Rec_U)},
                         success: function (msg) {
                             $('#modal_edit').modal('hide');
                             _self.show();

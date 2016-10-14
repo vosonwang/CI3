@@ -9,19 +9,24 @@ $(function () {
             Rec_N: [{}, {}, {}, {}, {}, {}, {}],
             Rec_D: [],
             Rec_U:{},
-            orders: [],
-            patterns: [],
-            users: []
+            order_detail:[],
+            users: [],
+            order_nos:[]
         },
         ready: function () {
             this.show();
+            this.getOrderNo();
         },
+        computed:{
+            pattern:function () {
 
+            }
+        },
         methods: {
             show: function () {
                 var _self = this;
                 $.ajax({
-                    type: 'post',
+                    type: 'get',
                     url: 'Receiving/show',
                     success: function (data) {
                         if (JSON.parse(data)) {
@@ -29,33 +34,35 @@ $(function () {
                         }
                     }
                 });
+
+
+
+
             },
 
-            //获取订单、花型、用户表中的数据
-            getList: function (entity) {
-                var _self = this;
+            getOrderNo:function () {
+                var n = {},a=[],_self=this; //n为hash表，r为临时数组
+
                 $.ajax({
-                    type: 'post',
-                    url: entity + "/show",
-                    success: function (data) {
-                        //判断订单、花型、用户表是否无记录
-                        if (JSON.parse(data)) {
-                            switch (entity) {
-                                case "order":
-                                    _self.orders = JSON.parse(data);
-                                    break;
-                                case "pattern":
-                                    _self.patterns = JSON.parse(data);
-                                    break;
-                                case "user":
-                                    _self.users = JSON.parse(data);
-                                    break;
+                    type:'get',
+                    url:"Order_detail/show",
+                    success:function (data) {
+                        a=JSON.parse(data);
+                        for(var i = 0; i < a.length; i++) //遍历当前数组
+                        {
+                            if (!n[a[i].order_no]) //如果hash表中没有当前项
+                            {
+                                n[a[i].order_no] = true; //存入hash表
+                                _self.order_nos.push({"order_no":a[i].order_no}); //把当前数组的当前项push到临时数组里面
                             }
                         }
+
+
                     }
                 });
-            },
 
+
+            },
 
             getRecordId: function (index, e, entity) {
                 var selector = $(":input[name='" + e.target.name + "']");
@@ -79,7 +86,6 @@ $(function () {
                 }
 
             },
-
 
             edit:function () {
                 if(this.Rec_D.length!=1){
@@ -137,7 +143,6 @@ $(function () {
                 }
             },
 
-
             delete: function () {
                 var _self = this;
                 if (_self.Rec_D.length != 0) {
@@ -155,8 +160,6 @@ $(function () {
                     toastr.info('请选择要删除的记录！')
                 }
             },
-
-
 
             select: function (item, e) {
 
@@ -210,11 +213,9 @@ $(function () {
                 }
             }
 
-
-
-
         }
     });
 
-
 });
+
+

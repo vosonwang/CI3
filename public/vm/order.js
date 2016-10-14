@@ -94,11 +94,10 @@ $(function () {
 
 
                 if (temp != 0) {
-                    json = JSON.stringify(temp);
                     $.ajax({
                         type: 'POST',
                         url: 'Order/insert',
-                        data: {json: json},
+                        data: {json: JSON.stringify(temp)},
                         success: function (msg) {
                             console.log(msg);
                             $('#Rec_N').modal('hide');
@@ -138,11 +137,10 @@ $(function () {
                 }
 
                 if (temp.length != 0) {
-                    json = JSON.stringify(temp);
                     $.ajax({
                         type: 'POST',
                         url: 'Order_detail/insert',
-                        data: {json: json},
+                        data: {json: JSON.stringify(temp)},
                         success: function (msg) {
                             console.log(msg);
                             $('#modal_addpat').modal('hide');
@@ -208,11 +206,10 @@ $(function () {
             deletePattern: function () {
                 var _self = this;
                 if (_self.Rec_D.length != 0) {
-                    var _json = JSON.stringify(_self.Rec_D);
                     $.ajax({
                         type: 'POST',
                         url: 'Order_detail/delete',
-                        data: {json: _json},
+                        data: {json: JSON.stringify(_self.Rec_D)},
                         success: function (msg) {
                             _self.show();
                             _self.Rec_D = [];

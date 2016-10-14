@@ -19,6 +19,10 @@ Array.prototype.remove = function (val) {
     }
 };
 
+
+
+
+
 //计算对象的长度
 function objLength(obj) {
     var count = 0;
