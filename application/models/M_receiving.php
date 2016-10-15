@@ -13,6 +13,7 @@ class M_receiving extends CI_Model{
     }
 
     function insert($arr){
+
         $this->db->insert('receiving', $arr);
     }
 

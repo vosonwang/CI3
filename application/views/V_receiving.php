@@ -77,36 +77,30 @@
                                 <template v-for="(index,item) in Rec_N ">
                                     <tr>
                                         <td class="border">{{index+1}}</td>
-                                        <td><input class="addRow" v-model="item.receipt_date"></td>
+                                        <td><input class="addRow" type="datetime" v-model="item.receipt_date"></td>
                                         <td>
-                                            <input class="addRow" type="text"  list="orders"
-
-                                                   @change="getRecordId(index,$event,'order')" name="ord{{index}}">
+                                            <input class="addRow" type="text"  list="orders" @change="selectOrder($event,item)">
                                             <datalist id="orders">
-                                                <template v-for="item in order_nos">
-                                                    <option value={{item.order_no}} >
+                                                <template v-for="a in order_no">
+                                                    <option value={{a.order_no}} >
                                                 </template>
                                             </datalist>
                                         </td>
                                         <td>
-                                            <input class="addRow" type="text"  list="patterns"
-                                                   @click="getList('pattern')"
-                                                   @change="getRecordId(index,$event,'pattern')" name="pat{{index}}">
+                                            <input class="addRow" type="text"  list="patterns" @change="selectPattern($event,item)">
                                             <datalist id="patterns">
-                                                <template v-for="item in patterns">
-                                                    <option value={{item.pattern}} name={{item.id}}>
+                                                <template v-for="b in patterns">
+                                                    <option value={{b.pattern}} >
                                                 </template>
                                             </datalist>
                                         </td>
                                         <td><input class="addRow" type="number" v-model="item.pieces" ></td>
                                         <td><input class="addRow" type="number" v-model="item.trips" ></td>
                                         <td>
-                                            <input class="addRow" type="text"  list="users"
-                                                   @click="getList('user')"
-                                                   @change="getRecordId(index,$event,'user')" name="user{{index}}">
+                                            <input class="addRow" type="text"  list="users" @change="selectUser($event,item)">
                                             <datalist id="users">
-                                                <template v-for="item in users">
-                                                    <option value={{item.user_name}} name={{item.user_id}}>
+                                                <template v-for="c in users">
+                                                    <option value={{c.user_name}}>
                                                 </template>
                                             </datalist>
                                         </td>

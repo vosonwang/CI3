@@ -5,26 +5,36 @@ $(function () {
     var receiving = new Vue({
         el: '#receiving',
         data: {
-            Rec:[],
+            Rec: [],
             Rec_N: [{}, {}, {}, {}, {}, {}, {}],
             Rec_D: [],
-            Rec_U:{},
-            order_detail:[],
-            users: [],
-            order_nos:[]
+            Rec_U: {},
+            order_detail: [],
+            patterns: [],
+            users: []
         },
         ready: function () {
             this.show();
-            this.getOrderNo();
         },
-        computed:{
-            pattern:function () {
-
+        computed: {
+            order_no: function () {
+                //数组去重
+                var n = {}, r = [];
+                for (var i = 0; i < this.order_detail.length; i++) //遍历当前数组
+                {
+                    if (!n[this.order_detail[i].order_no]) //如果hash表中没有当前项
+                    {
+                        n[this.order_detail[i].order_no] = true; //存入hash表
+                        r.push({"order_no": this.order_detail[i].order_no, "order_id": this.order_detail[i].order_id}); //把当前数组的当前项push到临时数组里面
+                    }
+                }
+                return r;
             }
         },
         methods: {
             show: function () {
                 var _self = this;
+
                 $.ajax({
                     type: 'get',
                     url: 'Receiving/show',
@@ -36,78 +46,75 @@ $(function () {
                 });
 
 
-
-
-            },
-
-            getOrderNo:function () {
-                var n = {},a=[],_self=this; //n为hash表，r为临时数组
-
                 $.ajax({
-                    type:'get',
-                    url:"Order_detail/show",
-                    success:function (data) {
-                        a=JSON.parse(data);
-                        for(var i = 0; i < a.length; i++) //遍历当前数组
-                        {
-                            if (!n[a[i].order_no]) //如果hash表中没有当前项
-                            {
-                                n[a[i].order_no] = true; //存入hash表
-                                _self.order_nos.push({"order_no":a[i].order_no}); //把当前数组的当前项push到临时数组里面
-                            }
-                        }
-
-
+                    type: 'get',
+                    url: "Order_detail/show",
+                    success: function (data) {
+                        _self.order_detail = JSON.parse(data);
                     }
                 });
 
-
+                $.ajax({
+                    type: 'post',
+                    url: "User/show",
+                    success: function (data) {
+                        _self.users = JSON.parse(data);
+                    }
+                })
             },
 
-            getRecordId: function (index, e, entity) {
-                var selector = $(":input[name='" + e.target.name + "']");
-                //获取当前input中的值
-                var value = selector.val();
 
-                //根据input值，查找datalist中的id,实际是订单的id
-                var record_id = selector.siblings("datalist").find("option[value='" + value + "']").attr("name");
-
-                //将订单id存入Rec_N中
-                switch (entity) {
-                    case 'order':
-                        this.Rec_N[index].order_id = record_id;
-                        break;
-                    case 'pattern':
-                        this.Rec_N[index].pattern_id = record_id;
-                        break;
-                    case 'user':
-                        this.Rec_N[index].user_id = record_id;
-                        break;
-                }
-
+            selectOrder: function (e, item) {
+                var _self = this;
+                _self.patterns = [];
+                $.each(_self.order_detail, function (a, b) {
+                    if (b.order_no == e.target.value) {
+                        item.order_id = b.order_id;
+                        _self.patterns.push({"pattern_id": b.pattern_id, "pattern": b.pattern});
+                    }
+                })
             },
 
-            edit:function () {
-                if(this.Rec_D.length!=1){
+            selectPattern: function (e, item) {
+                var _self = this;
+                $.each(_self.order_detail, function (a, b) {
+                    if (b.pattern == e.target.value) {
+                        item.pattern_id = b.pattern_id;
+                    }
+                })
+            },
+
+            selectUser: function (e, item) {
+                var _self = this;
+                $.each(_self.users, function (a, b) {
+                    if (b.user_name == e.target.value) {
+                        item.user_id = b.user_id;
+                    }
+                })
+            },
+
+
+            edit: function () {
+                if (this.Rec_D.length != 1) {
                     toastr.info('请选择一条要编辑的记录！')
-                }else{
+                } else {
                     $('#modal_edit').modal('show');
-                    $('#modal_edit').on('shown.bs.modal',function () {
+                    $('#modal_edit').on('shown.bs.modal', function () {
                         $('#receipt_date').focus();
                     });
-                    var _self=this;
-                    var id=_self.Rec_D[0];
-                    $.each(_self.Rec,function (a,b) {
-                        if(b.id==id){
-                            _self.Rec_U=JSON.parse(JSON.stringify(b));
+                    var _self = this;
+                    var id = _self.Rec_D[0];
+                    $.each(_self.Rec, function (a, b) {
+                        if (b.id == id) {
+                            _self.Rec_U = JSON.parse(JSON.stringify(b));
                             return false;
                         }
                     })
                 }
             },
 
-            update:function () {
-                var _self=this;
+            update: function () {
+                var _self = this;
                 $('#modal_edit').modal('hide');
             },
 
@@ -118,11 +125,11 @@ $(function () {
                 //1.过滤用户输入的""， 2. 过滤空的行
                 var temp = this.Rec_N.filter(function (item) {
                     for (var obj in item) {
-                        if (item[obj] == '' || item[obj]==undefined) {
+                        if (item[obj] == '' || item[obj] == undefined) {
                             delete item[obj];
                         }
                     }
-                    if(objLength(item)!=0){
+                    if (objLength(item) != 0) {
                         return item;
                     }
                 });
@@ -167,7 +174,7 @@ $(function () {
                 if (e.shiftKey == 1) {
 
                     //判断是否符合按下shift键之前已选中过一个元素,并且之前选的元素和当前的元素不同
-                    if (this.id != "" && this.id!=item.id) {
+                    if (this.id != "" && this.id != item.id) {
                         var _new = arrObjIndex(item.id, this.Rec);
                         var _old = arrObjIndex(this.id, this.Rec);
 
@@ -191,21 +198,21 @@ $(function () {
                     }
                 } else {
                     selector = "#i" + item.id;
-                    var bool=false;
-                    var _self=this;
+                    var bool = false;
+                    var _self = this;
 
                     //判断当前记录是否已被选中
-                    $.each(_self.Rec_D,function (a,b) {
-                        if(item.id==b){
-                            bool=true;
+                    $.each(_self.Rec_D, function (a, b) {
+                        if (item.id == b) {
+                            bool = true;
                             return false;
                         }
                     });
-                    if(bool){
+                    if (bool) {
                         $(selector).removeClass("selected");
                         this.Rec_D.remove(item.id);
-                        this.id=""
-                    }else{
+                        this.id = ""
+                    } else {
                         $(selector).addClass("selected");
                         this.Rec_D.push(item.id);
                         this.id = item.id;
@@ -214,8 +221,6 @@ $(function () {
             }
 
         }
-    });
 
-});
-
-
+    })
+})
