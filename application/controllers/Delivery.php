@@ -4,6 +4,7 @@ class Delivery extends Controller{
         $this -> load -> view('templates/header');
         $this -> load -> view('templates/nav');
         $this -> load -> view('V_delivery');
+        $this->load->view('templates/footer');
     }
 
     function show(){

@@ -6,9 +6,9 @@ $(function () {
         el: '#receiving',
         data: {
             Rec: [],
-            Rec_N: [{}, {}, {}, {}, {}, {}, {}],
+            Rec_N: [{"receipt_date":""}, {"receipt_date":""}, {"receipt_date":""}, {"receipt_date":""}, {"receipt_date":""}, {"receipt_date":""}, {"receipt_date":""}],
             Rec_D: [],
-            Rec_U: {},
+            Rec_U:[],
             order_detail: [],
             patterns: [],
             users: []
@@ -112,10 +112,47 @@ $(function () {
                     })
                 }
             },
-
+            datepick:function (e,item) {
+                $(e.target).datetimepicker({
+                    language:  'zh-CN',
+                    weekStart: 1,
+                    autoclose: 1,
+                    todayHighlight: 1,
+                    startView: 2,
+                    minView: 2,
+                    forceParse: 0,
+                    format:'yyyy/mm/dd'
+                }).datetimepicker('show');
+            },
             update: function () {
-                var _self = this;
+                var _self=this;
+                if(this.Rec_U.pattern_id != "" && this.Rec_U.order_id != "" && this.Rec_U.user_id != "" ){
+                    delete this.Rec_U.order_no;
+                    delete this.Rec_U.pattern;
+                    delete this.Rec_U.user_name;
+                    delete this.Rec_U.role_id;
+                    $.ajax({
+                        type: 'POST',
+                        url: 'Receiving/update',
+                        data: {json: JSON.stringify(_self.Rec_U)},
+                        success: function (msg) {
+                            _self.show();
+                            _self.Rec_D=[];
+                        }
+                    });
+                }
                 $('#modal_edit').modal('hide');
+            },
+
+
+            showInsertModal:function () {
+                var _self=this;
+                var today=new Date().toLocaleDateString();
+                $.each(_self.Rec_N,function (a,b) {
+                    b.receipt_date=today;
+                });
+                $('#modal_insert').modal('show');
+
             },
 
             insert: function () {
@@ -123,31 +160,33 @@ $(function () {
 
                 //Rec_N是一个数组,其中的元素都是对象
                 //1.过滤用户输入的""， 2. 过滤空的行
-                var temp = this.Rec_N.filter(function (item) {
-                    for (var obj in item) {
-                        if (item[obj] == '' || item[obj] == undefined) {
-                            delete item[obj];
+                var tempArr = this.Rec_N.filter(function (item) {
+                    if (objLength(item) != 0 ) {
+                        for (var obj in item) {
+                            if (item[obj] == '' || item[obj] == undefined) {
+                                delete item[obj];
+                            }
                         }
-                    }
-                    if (objLength(item) != 0) {
-                        return item;
+                        if(item.pattern_id != undefined && item.order_id !=undefined && item.user_id !=undefined){
+                            return item;
+                        }
                     }
                 });
 
 
-                if (temp != 0) {
+                if (tempArr.length != 0) {
                     $.ajax({
                         type: 'POST',
                         url: 'Receiving/insert',
-                        data: {json: JSON.stringify(temp)},
+                        data: {json: JSON.stringify(tempArr)},
                         success: function (msg) {
                             console.log(msg);
-                            $('#modal_insert').modal('hide');
                             _self.show();
-                            _self.Rec_N = [{}, {}, {}, {}, {}, {}, {}];
+                            _self.Rec_N = [{"receipt_date":""}, {"receipt_date":""}, {"receipt_date":""}, {"receipt_date":""}, {"receipt_date":""}, {"receipt_date":""}, {"receipt_date":""}];
                         }
                     });
                 }
+                $('#modal_insert').modal('hide');
             },
 
             delete: function () {
@@ -223,4 +262,4 @@ $(function () {
         }
 
     })
-})
+});

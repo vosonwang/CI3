@@ -20,4 +20,8 @@ class M_receiving extends CI_Model{
     function remove($id){
         $this->db->delete('receiving', array('id' => $id));
     }
+
+    function update($data){
+        $this->db->replace('receiving', $data);
+    }
 }

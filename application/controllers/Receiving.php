@@ -7,6 +7,7 @@ class Receiving extends Controller
         $this->load->view('templates/header');
         $this->load->view('templates/nav');
         $this->load->view('V_receiving');
+        $this->load->view('templates/footer');
     }
 
     function show()
@@ -35,5 +36,12 @@ class Receiving extends Controller
         foreach ($json as $id) {
             $this->M_receiving->remove($id);
         }
+    }
+
+    function update(){
+        $json=$this->input->post(null,true);
+        $json=json_decode($json['json'],true);
+        $this->load->model('M_receiving');
+        $this->M_receiving->update($json);
     }
 }

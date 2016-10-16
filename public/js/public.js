@@ -100,5 +100,5 @@ Vue.filter('dateFormat', function (date) {
     var minute = date.getMinutes();
     minute = minute < 10 ? ('0' + minute) : minute;
     return m + '-' + d + ' ' + h + ':' + minute;
-})
+});
 

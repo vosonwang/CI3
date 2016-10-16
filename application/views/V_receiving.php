@@ -2,18 +2,14 @@
 <body style="font-family: 微软雅黑,Arial,宋体">
 <div class="container" id="receiving">
     <div class="row">
-        &nbsp;
-    </div>
-    <div class="row">
         <div class="col-xs-12">
             <div style="height: 40px;background-color: rgb(245,245,245);">
-                <h4 style="margin-bottom: 0;font-weight: bold;width: 100px;display:inline">收货记录</h4>
-
+                <h4 style="margin-bottom: 0;font-weight: bold;width: 100px;display:inline">收货记录2</h4>
                 <div class="pull-right" style="display: inline">
 
                     <button class="btn btn-default right" @click="delete">删除</button>
-                    <button class="btn btn-default right" data-toggle="modal" data-target="#modal_insert">增加</button>
-                    <button class="btn btn-default right" data-toggle="modal" @click="edit">编辑</button>
+                    <button class="btn btn-default right" @click="showInsertModal">增加</button>
+                    <button class="btn btn-default right" @click="edit">编辑</button>
                 </div>
             </div>
         </div>
@@ -46,8 +42,8 @@
                 </tbody>
             </table>
         </div>
-
     </div>
+
 
     <div class="modal fade " role="dialog" aria-labelledby="gridSystemModalLabel" id="modal_insert">
         <div class="modal-dialog modal-lg" role="document">
@@ -61,7 +57,7 @@
                     <div class="container-fluid">
                         <div class="row">
                             <table
-                                class="table table-striped table-bordered table-hover table-bordersed table-condensed text-center unselectable">
+                                class="table table-striped table-bordered table-hover table-bordersed table-condensed text-center unselectable" name="test">
                                 <thead>
                                 <tr>
                                     <th class="text-center border">No</th>
@@ -77,7 +73,7 @@
                                 <template v-for="(index,item) in Rec_N ">
                                     <tr>
                                         <td class="border">{{index+1}}</td>
-                                        <td><input class="addRow" type="datetime" v-model="item.receipt_date"></td>
+                                        <td><input class="addRow datepick" id="zz" type="datetime" v-model="item.receipt_date"  @click="datepick($event)"></td>
                                         <td>
                                             <input class="addRow" type="text"  list="orders" @change="selectOrder($event,item)">
                                             <datalist id="orders">
@@ -202,5 +198,6 @@
 
 
 <script src="public/vm/receiving.js"></script>
+
 
 </body>

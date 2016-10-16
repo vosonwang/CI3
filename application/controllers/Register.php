@@ -12,6 +12,7 @@ class Register extends Controller
     {
         $this -> load -> view('templates/header');
         $this -> load -> view('V_register');
+        $this->load->view('templates/footer');
     }
 
     function newUser(){

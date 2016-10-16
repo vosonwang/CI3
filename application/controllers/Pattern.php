@@ -12,6 +12,7 @@ class Pattern extends Controller
         $this -> load -> view('templates/header');
         $this -> load -> view('templates/nav');
         $this -> load -> view('V_pattern');
+        $this->load->view('templates/footer');
     }
 
     function show(){
