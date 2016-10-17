@@ -96,9 +96,6 @@ Vue.filter('dateFormat', function (date) {
     m = m < 10 ? ('0' + m) : m;
     var d = date.getDate();
     d = d < 10 ? ('0' + d) : d;
-    var h = date.getHours();
-    var minute = date.getMinutes();
-    minute = minute < 10 ? ('0' + minute) : minute;
-    return m + '-' + d + ' ' + h + ':' + minute;
+    return y+'-'+m + '-' + d ;
 });
 

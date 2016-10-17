@@ -6,29 +6,23 @@ $(function () {
         el: '#receiving',
         data: {
             Rec: [],
-            Rec_N: [{"receipt_date":""}, {"receipt_date":""}, {"receipt_date":""}, {"receipt_date":""}, {"receipt_date":""}, {"receipt_date":""}, {"receipt_date":""}],
+            Rec_N: [{"receipt_date": ""}, {"receipt_date": ""}, {"receipt_date": ""}, {"receipt_date": ""}, {"receipt_date": ""}, {"receipt_date": ""}, {"receipt_date": ""}],
             Rec_D: [],
-            Rec_U:[],
-            order_detail: [],
-            patterns: [],
-            users: []
+            Rec_U: [],
+            order_pattern: [],
+            users: [],
+            patterns_n: []
         },
         ready: function () {
             this.show();
         },
         computed: {
-            order_no: function () {
-                //数组去重
-                var n = {}, r = [];
-                for (var i = 0; i < this.order_detail.length; i++) //遍历当前数组
-                {
-                    if (!n[this.order_detail[i].order_no]) //如果hash表中没有当前项
-                    {
-                        n[this.order_detail[i].order_no] = true; //存入hash表
-                        r.push({"order_no": this.order_detail[i].order_no, "order_id": this.order_detail[i].order_id}); //把当前数组的当前项push到临时数组里面
+            patterns_u: function () {
+                for (var i = 0; i < this.order_pattern.length; i++) {
+                    if (this.order_pattern[i].order_no == this.Rec_U.order_no) {
+                        return this.order_pattern[i].patterns;
                     }
                 }
-                return r;
             }
         },
         methods: {
@@ -45,15 +39,32 @@ $(function () {
                     }
                 });
 
-
+                //获取订单、花型信息
                 $.ajax({
                     type: 'get',
                     url: "Order_detail/show",
                     success: function (data) {
-                        _self.order_detail = JSON.parse(data);
+                        var n = {}, r = [], s = JSON.parse(data);
+
+                        //将订单详情页的数据提取组装成需要的对象数组
+                        for (var i = 0; i < s.length; i++) {
+                            if (!n[s[i].order_no]) {
+                                n[s[i].order_no] = true;
+                                r.push({"order_no": s[i].order_no, "order_id": s[i].order_id, "patterns": []});
+                            }
+                        }
+                        for (i = 0; i < s.length; i++) {
+                            for (var j = 0; j < r.length; j++) {
+                                if (r[j].order_id == s[i].order_id) {
+                                    r[j].patterns.push({"pattern_id": s[i].pattern_id, "pattern": s[i].pattern})
+                                }
+                            }
+                        }
+                        _self.order_pattern = r;
                     }
                 });
 
+                //获取用户信息
                 $.ajax({
                     type: 'post',
                     url: "User/show",
@@ -63,23 +74,21 @@ $(function () {
                 })
             },
 
-
             selectOrder: function (e, item) {
                 var _self = this;
-                _self.patterns = [];
-                $.each(_self.order_detail, function (a, b) {
-                    if (b.order_no == e.target.value) {
+                _self.patterns_n = [];
+                if (b.order_no == e.target.value) {
+                    if (item != undefined) {
                         item.order_id = b.order_id;
-                        _self.patterns.push({"pattern_id": b.pattern_id, "pattern": b.pattern});
                     }
-                })
+                }
             },
 
             selectPattern: function (e, item) {
                 var _self = this;
-                $.each(_self.order_detail, function (a, b) {
-                    if (b.pattern == e.target.value) {
-                        item.pattern_id = b.pattern_id;
+                $.each(_self.order_pattern, function (a, b) {
+                    if (b.order_id == item.id) {
+                        _self.patterns_n = b.patterns;
                     }
                 })
             },
@@ -100,7 +109,7 @@ $(function () {
                 } else {
                     $('#modal_edit').modal('show');
                     $('#modal_edit').on('shown.bs.modal', function () {
-                        $('#receipt_date').focus();
+                        $('#receipt_date').focus().datetimepicker('remove');
                     });
                     var _self = this;
                     var id = _self.Rec_D[0];
@@ -112,21 +121,21 @@ $(function () {
                     })
                 }
             },
-            datepick:function (e,item) {
+            datepick: function (e) {
                 $(e.target).datetimepicker({
-                    language:  'zh-CN',
+                    language: 'zh-CN',
                     weekStart: 1,
                     autoclose: 1,
                     todayHighlight: 1,
                     startView: 2,
                     minView: 2,
                     forceParse: 0,
-                    format:'yyyy/mm/dd'
+                    format: 'yyyy-mm-dd'
                 }).datetimepicker('show');
             },
             update: function () {
-                var _self=this;
-                if(this.Rec_U.pattern_id != "" && this.Rec_U.order_id != "" && this.Rec_U.user_id != "" ){
+                var _self = this;
+                if (this.Rec_U.pattern_id != "" && this.Rec_U.order_id != "" && this.Rec_U.user_id != "") {
                     delete this.Rec_U.order_no;
                     delete this.Rec_U.pattern;
                     delete this.Rec_U.user_name;
@@ -137,7 +146,7 @@ $(function () {
                         data: {json: JSON.stringify(_self.Rec_U)},
                         success: function (msg) {
                             _self.show();
-                            _self.Rec_D=[];
+                            _self.Rec_D = [];
                         }
                     });
                 }
@@ -145,11 +154,11 @@ $(function () {
             },
 
 
-            showInsertModal:function () {
-                var _self=this;
-                var today=new Date().toLocaleDateString();
-                $.each(_self.Rec_N,function (a,b) {
-                    b.receipt_date=today;
+            showInsertModal: function () {
+                var _self = this;
+                var today = new Date().toLocaleDateString();
+                $.each(_self.Rec_N, function (a, b) {
+                    b.receipt_date = today.replace(/\/{1}/g, "-");
                 });
                 $('#modal_insert').modal('show');
 
@@ -161,13 +170,13 @@ $(function () {
                 //Rec_N是一个数组,其中的元素都是对象
                 //1.过滤用户输入的""， 2. 过滤空的行
                 var tempArr = this.Rec_N.filter(function (item) {
-                    if (objLength(item) != 0 ) {
+                    if (objLength(item) != 0) {
                         for (var obj in item) {
                             if (item[obj] == '' || item[obj] == undefined) {
                                 delete item[obj];
                             }
                         }
-                        if(item.pattern_id != undefined && item.order_id !=undefined && item.user_id !=undefined){
+                        if (item.pattern_id != undefined && item.order_id != undefined && item.user_id != undefined) {
                             return item;
                         }
                     }
@@ -182,7 +191,7 @@ $(function () {
                         success: function (msg) {
                             console.log(msg);
                             _self.show();
-                            _self.Rec_N = [{"receipt_date":""}, {"receipt_date":""}, {"receipt_date":""}, {"receipt_date":""}, {"receipt_date":""}, {"receipt_date":""}, {"receipt_date":""}];
+                            _self.Rec_N = [{"receipt_date": ""}, {"receipt_date": ""}, {"receipt_date": ""}, {"receipt_date": ""}, {"receipt_date": ""}, {"receipt_date": ""}, {"receipt_date": ""}];
                         }
                     });
                 }
@@ -260,6 +269,5 @@ $(function () {
             }
 
         }
-
     })
 });

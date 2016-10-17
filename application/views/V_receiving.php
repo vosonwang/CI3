@@ -8,7 +8,7 @@
                 <div class="pull-right" style="display: inline">
 
                     <button class="btn btn-default right" @click="delete">删除</button>
-                    <button class="btn btn-default right" @click="showInsertModal">增加</button>
+                    <a class="btn btn-default right"  @click="showInsertModal" >增加</a>
                     <button class="btn btn-default right" @click="edit">编辑</button>
                 </div>
             </div>
@@ -45,7 +45,7 @@
     </div>
 
 
-    <div class="modal fade " role="dialog" aria-labelledby="gridSystemModalLabel" id="modal_insert">
+    <div class="modal fade " role="dialog" aria-labelledby="gridSystemModalLabel" id="modal_insert" >
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -56,8 +56,8 @@
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="row">
-                            <table
-                                class="table table-striped table-bordered table-hover table-bordersed table-condensed text-center unselectable" name="test">
+
+                            <table class="table table-striped table-bordered table-hover table-bordersed table-condensed text-center unselectable">
                                 <thead>
                                 <tr>
                                     <th class="text-center border">No</th>
@@ -73,20 +73,21 @@
                                 <template v-for="(index,item) in Rec_N ">
                                     <tr>
                                         <td class="border">{{index+1}}</td>
-                                        <td><input class="addRow datepick" id="zz" type="datetime" v-model="item.receipt_date"  @click="datepick($event)"></td>
+                                        <td><input class="addRow" type="datetime" v-model="item.receipt_date"  @click="datepick($event)"></td>
                                         <td>
-                                            <input class="addRow" type="text"  list="orders" @change="selectOrder($event,item)">
+                                            <input class="addRow" type="text"  list="orders"   @change="selectOrder($event,item)">
                                             <datalist id="orders">
-                                                <template v-for="a in order_no">
+                                                <template v-for="a in order_pattern">
                                                     <option value={{a.order_no}} >
                                                 </template>
                                             </datalist>
                                         </td>
                                         <td>
-                                            <input class="addRow" type="text"  list="patterns" @change="selectPattern($event,item)">
-                                            <datalist id="patterns">
-                                                <template v-for="b in patterns">
-                                                    <option value={{b.pattern}} >
+                                            <input class="addRow" type="text"  list="patterns2" @click="selectPattern($event,item)">
+                                            <!--花型的下拉列表-->
+                                            <datalist id="patterns2">
+                                                <template v-for="item in patterns_n">
+                                                    <option value={{item.pattern}}>
                                                 </template>
                                             </datalist>
                                         </td>
@@ -130,16 +131,15 @@
                         <div class="form-group">
                             <label for="receipt_date" class="col-sm-2 control-label">收货日期</label>
                             <div class="col-sm-10">
-                                <input type="datetime" class="form-control" id="receipt_date" v-model="Rec_U.receipt_date" @keyup.enter="update">
+                                <input type="datetime" class="form-control" id="receipt_date" v-model="Rec_U.receipt_date" @keyup.enter="update" @click="datepick($event)" @change="datepickX($event)">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="order_no" class="col-sm-2 control-label">单号</label>
                             <div class="col-sm-10">
-                                <input  type="text"  list="orders" class="form-control" id="order" @click="getList('order')"
-                                          v-model="Rec_U.order_no" @keyup.enter="update">
-                                <datalist id="orders">
-                                    <template v-for="item in orders">
+                                <input  type="text"  list="orders2" class="form-control"  v-model="Rec_U.order_no" @keyup.enter="update" @change="selectOrder($event)">
+                                <datalist id="orders2">
+                                    <template v-for="item in order_pattern">
                                         <option value={{item.order_no}} name={{item.id}}>
                                     </template>
                                 </datalist>
@@ -148,11 +148,10 @@
                         <div class="form-group">
                             <label for="pattern" class="col-sm-2 control-label">花型</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control"  list="patterns" @click="getList('pattern')"
-                                        name="pat{{index}}" v-model="Rec_U.pattern" @keyup.enter="update">
-                                <datalist id="patterns">
-                                    <template v-for="item in patterns">
-                                        <option value={{item.pattern}} name={{item.id}}>
+                                <input type="text" class="form-control"  list="patterns2"  @keyup.enter="update" value="{{Rec_U.pattern}}">
+                                <datalist id="patterns2">
+                                    <template v-for="item in patterns_u">
+                                        <option value={{item.pattern}}>
                                     </template>
                                 </datalist>
                             </div>
@@ -172,12 +171,10 @@
                         <div class="form-group">
                             <label for="users" class="col-sm-2 control-label">发货人</label>
                             <div class="col-sm-10">
-                                <input class="form-control" type="text"  list="users"  v-model="Rec_U.user_name" @keyup.enter="update"
-                                       @click="getList('user')"
-                                        name="user{{index}}">
+                                <input class="form-control" type="text"  list="users"  @keyup.enter="update"  name="user{{index}}" value="{{Rec_U.user_name}}">
                                 <datalist id="users">
                                     <template v-for="item in users">
-                                        <option value={{item.user_name}} name={{item.user_id}}>
+                                        <option value={{item.user_name}}>
                                     </template>
                                 </datalist>
                             </div>
