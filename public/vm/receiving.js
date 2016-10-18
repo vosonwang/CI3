@@ -77,18 +77,29 @@ $(function () {
             selectOrder: function (e, item) {
                 var _self = this;
                 _self.patterns_n = [];
-                if (b.order_no == e.target.value) {
-                    if (item != undefined) {
-                        item.order_id = b.order_id;
+                $.each(_self.order_pattern, function (a, b) {
+                    if (b.order_no == e.target.value) {
+                        if (item != undefined) {
+                            item.order_id = b.order_id;
+                        }
                     }
-                }
+                })
             },
 
-            selectPattern: function (e, item) {
+            getPatternList: function (e, item) {
                 var _self = this;
                 $.each(_self.order_pattern, function (a, b) {
-                    if (b.order_id == item.id) {
+                    if (b.order_id == item.order_id) {
                         _self.patterns_n = b.patterns;
+                    }
+                })
+            },
+
+            selectPattern:function (e, item) {
+                var _self = this;
+                $.each(_self.patterns_n, function (a, b) {
+                    if(b.pattern==e.target.value){
+                        item.pattern_id=b.pattern_id;
                     }
                 })
             },
@@ -135,7 +146,26 @@ $(function () {
             },
             update: function () {
                 var _self = this;
-                if (this.Rec_U.pattern_id != "" && this.Rec_U.order_id != "" && this.Rec_U.user_id != "") {
+                if (this.Rec_U.pattern != "" && this.Rec_U.order_no != "" && this.Rec_U.user_name != "") {
+                    $.each(_self.order_pattern, function (a, b) {
+                        if(b.order_no==_self.Rec_U.order_no){
+                            _self.Rec_U.order_id=b.order_id;
+                            $.each(b.patterns,function (x,y) {
+                                if(y.pattern==_self.Rec_U.pattern){
+                                    _self.Rec_U.pattern_id=y.pattern_id;
+                                    return false;
+                                }
+                            });
+                            return false;
+                        }
+                    });
+                    $.each(_self.users, function (a, b) {
+                        if (b.user_name == _self.Rec_U.user_name) {
+                            _self.Rec_U.user_id = b.user_id;
+                            return false;
+                        }
+                    });
+
                     delete this.Rec_U.order_no;
                     delete this.Rec_U.pattern;
                     delete this.Rec_U.user_name;
@@ -145,12 +175,15 @@ $(function () {
                         url: 'Receiving/update',
                         data: {json: JSON.stringify(_self.Rec_U)},
                         success: function (msg) {
+                            $('#modal_edit').modal('hide');
                             _self.show();
+                            _self.Rec_U = [];
                             _self.Rec_D = [];
                         }
                     });
+                }else {
+                    toastr.info('订单、花型和发货人未填！')
                 }
-                $('#modal_edit').modal('hide');
             },
 
 
@@ -216,7 +249,7 @@ $(function () {
                 }
             },
 
-            select: function (item, e) {
+            selectRec: function (item, e) {
 
                 //判断是否按住shift键进行多选
                 if (e.shiftKey == 1) {

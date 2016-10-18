@@ -33,11 +33,11 @@ class Order extends Controller
         }
     }
 
-    function delete()
+    function remove()
     {
         $id = $this->input->post(null, true);
         $this->load->model('M_order');
-        $this->M_order->delete($id['id']);
+        $this->M_order->remove($id['id']);
     }
 
 

@@ -57,7 +57,7 @@
                     </thead>
                     <tbody>
                     <template v-for="(key,value) in item.detail">
-                        <tr id="OP{{item.id}}{{value.pattern_id}}" @click="select(value,item)">
+                        <tr id="OP{{item.id}}{{value.pattern_id}}" @click="selectRec(value,item)">
                             <th  class="text-center border">{{key+1}}</th>
                             <td>{{value.pattern}}</td>
                             <td>{{value.pieces}}</td>

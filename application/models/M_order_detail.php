@@ -22,12 +22,14 @@ class M_order_detail extends CI_Model
         return $query -> result();
     }
 
-    function delete($id){
-        $this->db->delete('order_pattern', array('id' => $id));
+    function remove($id){
+        $this->db->where('pattern_id',$id['pattern_id'])->group_start()->where('order_id', $id['order_id'])->group_end();
+        $this->db->delete('order_pattern');
     }
 
     function insert($arr){
         $this->db->insert('order_pattern', $arr);
+
     }
 
 

@@ -31,7 +31,7 @@ class M_order extends CI_Model
         $this->db->insert('orders', $arr);
     }
 
-    function delete($id){
+    function remove($id){
         $this->db->where('id', $id);
         $this->db->delete('orders');
     }

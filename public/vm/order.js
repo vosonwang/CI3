@@ -193,7 +193,7 @@ $(function () {
                 var _self = this;
                 $.ajax({
                     type: 'POST',
-                    url: 'Order/delete',
+                    url: 'Order/remove',
                     data: {id: item.id},
                     success: function (msg) {
                         _self.show();
@@ -208,7 +208,7 @@ $(function () {
                 if (_self.Rec_D.length != 0) {
                     $.ajax({
                         type: 'POST',
-                        url: 'Order_detail/delete',
+                        url: 'Order_detail/remove',
                         data: {json: JSON.stringify(_self.Rec_D)},
                         success: function (msg) {
                             _self.show();
@@ -222,7 +222,7 @@ $(function () {
             },
 
 
-            select: function (value, item) {
+            selectRec: function (value, item) {
                 var _self = this;
                 var selector = $("#OP" +item.id +value.pattern_id);
 
