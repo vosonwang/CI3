@@ -204,7 +204,7 @@ $(function () {
                 var _self = this;
                 $.ajax({
                     type: 'POST',
-                    url: 'Order/delete',
+                    url: 'Order/remove',
                     data: {id: item.id},
                     success: function (msg) {
                         _self.show();
@@ -233,7 +233,7 @@ $(function () {
             },
 
 
-            select: function (value, item) {
+            selectRec: function (value, item) {
                 var _self = this;
                 var selector = $("#OP" +item.id +value.pattern_id);
 
