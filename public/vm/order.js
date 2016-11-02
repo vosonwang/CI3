@@ -78,7 +78,6 @@ $(function () {
 
             insert: function () {
                 var _self = this;
-
                 //Rec_N是一个数组,其中的元素都是对象
                 //1.过滤用户输入的""， 2. 过滤空的行
                 var temp = this.Rec_N.filter(function (item) {
@@ -93,25 +92,24 @@ $(function () {
                 });
 
 
-                if (temp != 0) {
+                if (temp.length != 0) {
                     $.ajax({
                         type: 'POST',
                         url: 'Order/insert',
                         data: {json: JSON.stringify(temp)},
                         success: function (msg) {
-                            console.log(msg);
-                            $('#Rec_N').modal('hide');
                             _self.show();
                             _self.Rec_N = [{}, {}, {}, {}, {}, {}, {}];
                         }
                     });
                 }
+                $('#modal_add').modal('hide');
             },
 
             add: function (item) {
                 var _self = this;
                 _self.new_pat[0].order_id = item.id;
-                _self.order_no = item.order_no;     //换成new_pat.order_no就无法在页面上输出
+                _self.order_no = item.order_no;
                 $("#modal_addpat").modal("show");
 
             },
@@ -179,6 +177,19 @@ $(function () {
             },
 
 
+            datepick: function (e) {
+                $(e.target).datetimepicker({
+                    language: 'zh-CN',
+                    weekStart: 1,
+                    autoclose: 1,
+                    todayHighlight: 1,
+                    startView: 2,
+                    minView: 2,
+                    forceParse: 0,
+                    format: 'yyyy-mm-dd'
+                }).datetimepicker('show');
+            },
+
             getPatId: function (item, e) {
                 var _self = this;
                 $.each(_self.patterns, function (a, b) {
@@ -208,7 +219,7 @@ $(function () {
                 if (_self.Rec_D.length != 0) {
                     $.ajax({
                         type: 'POST',
-                        url: 'Order_detail/delete',
+                        url: 'Order_detail/remove',
                         data: {json: JSON.stringify(_self.Rec_D)},
                         success: function (msg) {
                             _self.show();

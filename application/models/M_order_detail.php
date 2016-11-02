@@ -8,25 +8,30 @@
  */
 class M_order_detail extends CI_Model
 {
-    function show(){
-        $query = $this -> db -> get('v_order_detail');
-        return $query -> result();
+    function show()
+    {
+        $query = $this->db->get('v_order_detail');
+        return $query->result();
     }
 
 
-
-    function order_detail($order_no){
+    function order_detail($order_no)
+    {
         $this->db->select('pattern,pieces,totaldelivery,pattern_id');
         $this->db->where('order_no', $order_no);
-        $query=$this->db->get('v_order_detail');
-        return $query -> result();
+        $query = $this->db->get('v_order_detail');
+        return $query->result();
     }
 
-    function delete($id){
-        $this->db->delete('order_pattern', array('id' => $id));
+    function remove($id)
+    {
+        $this->db->where('order_id',$id->order_id);
+        $this->db->where('pattern_id',$id->pattern_id);
+        $this->db->delete('order_pattern');
     }
 
-    function insert($arr){
+    function insert($arr)
+    {
         $this->db->insert('order_pattern', $arr);
     }
 

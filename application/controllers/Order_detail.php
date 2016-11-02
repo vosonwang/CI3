@@ -28,11 +28,11 @@ class Order_detail extends Controller
         echo json_encode($orders);
     }
 
-    function delete(){
+    function remove(){
         $this -> load -> model('M_order_detail');
         $t=$this->input->post(null,true);
         foreach(json_decode($t['json']) as $item){
-            $this-> M_order_detail->delete($item);
+            $this-> M_order_detail->remove($item);
         }
     }
 

@@ -17,6 +17,7 @@ $(function () {
             this.show();
         },
         computed: {
+            //更新的花型信息
             patterns_u: function () {
                 for (var i = 0; i < this.order_pattern.length; i++) {
                     if (this.order_pattern[i].order_no == this.Rec_U.order_no) {
@@ -74,30 +75,50 @@ $(function () {
                 })
             },
 
-            selectOrder: function (e, item) {
+
+            //向新增收货记录装载订单ID
+            loadOrder: function (e, item) {
                 var _self = this;
-                _self.patterns_n = [];
-                if (b.order_no == e.target.value) {
-                    if (item != undefined) {
-                        item.order_id = b.order_id;
+                $.each(_self.order_pattern, function (a, b) {
+                    if (b.order_no == e.target.value) {
+                        item.order_id=b.order_id;
+                        return false;
                     }
+                })
+
+            },
+
+            //新增-花型
+            getPATList: function (e, item) {
+                var _self = this;
+                if(item.order_id!="" && item.order_id != undefined){
+                    $.each(_self.order_pattern, function (a, b) {
+                        if (b.order_id == item.order_id) {
+                            _self.patterns_n = b.patterns;
+                            return false;
+                        }
+                    })
                 }
             },
 
-            selectPattern: function (e, item) {
+
+            //向新增收货记录装载花型ID
+            loadPattern:function (e, item) {
                 var _self = this;
-                $.each(_self.order_pattern, function (a, b) {
-                    if (b.order_id == item.id) {
-                        _self.patterns_n = b.patterns;
+                $.each(_self.patterns_n, function (a, b) {
+                    if (b.pattern == e.target.value) {
+                        item.pattern_id = b.pattern_id;
+                        return false;
                     }
                 })
             },
 
-            selectUser: function (e, item) {
+            loadUser: function (e, item) {
                 var _self = this;
                 $.each(_self.users, function (a, b) {
                     if (b.user_name == e.target.value) {
                         item.user_id = b.user_id;
+                        return false;
                     }
                 })
             },

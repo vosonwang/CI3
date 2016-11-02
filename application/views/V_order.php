@@ -22,18 +22,18 @@
                         <span
                             style="width: 33%;display: inline-block">订单号：{{item.order_no}}</span>
                         <span class="" style="width: 33%;display: inline-block">总条数：{{totalPieces[index]}}</span>
-                        <span class="pull-right" style="width: 2%;display: inline-block">
-                    <a href="javascript:void(0)"  style="color:black" @click="remove(item)">
+                        <!--<span class="pull-right" style="width: 2%;display: inline-block">
+                    <a href="javascript:void(0)" style="color:black" @click="remove(item)">
                         <i class="fa fa-trash-o" aria-hidden="true"></i>
                     </a></span>
                         <span class="pull-right" style="width: 2%;display: inline-block">
-                            <a href="javascript:void(0)"  style="color:black">
+                            <a href="javascript:void(0)" style="color:black" @click="edit(item)">
                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                             </span>
                         <span class="pull-right" style="width: 2%;display: inline-block">
                     <a href="javascript:void(0)" @click="deletePattern" style="color:black">
                         <i class="fa fa-minus" aria-hidden="true"></i>
-                    </a></span>
+                    </a></span>-->
                         <span class="pull-right" style="width: 2%;display: inline-block">
                     <a href="javascript:void(0)" style="color:black" @click="add(item)">
                         <i class="fa fa-plus" aria-hidden="true"></i>
@@ -101,7 +101,7 @@
                                             <input class="addRow" disabled="disabled" value={{index+1}}>
                                         </td>
                                         <td><input class="addRow" type="text" v-model="item.order_no"></td>
-                                        <td><input class="addRow" type="date" v-model="item.expiration_date"></td>
+                                        <td><input class="addRow"  v-model="item.expiration_date" @click="datepick($event)"></td>
 
                                     </tr>
                                 </template>

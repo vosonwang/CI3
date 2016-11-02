@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-xs-12">
             <div style="height: 40px;background-color: rgb(245,245,245);">
-                <h4 style="margin-bottom: 0;font-weight: bold;width: 100px;display:inline">收货记录2</h4>
+                <h4 style="margin-bottom: 0;font-weight: bold;width: 100px;display:inline">收货记录</h4>
                 <div class="pull-right" style="display: inline">
 
                     <button class="btn btn-default right" @click="delete">删除</button>
@@ -75,7 +75,7 @@
                                         <td class="border">{{index+1}}</td>
                                         <td><input class="addRow" type="datetime" v-model="item.receipt_date"  @click="datepick($event)"></td>
                                         <td>
-                                            <input class="addRow" type="text"  list="orders"   @change="selectOrder($event,item)">
+                                            <input class="addRow" type="text"  list="orders"   @change="loadOrder($event,item)">
                                             <datalist id="orders">
                                                 <template v-for="a in order_pattern">
                                                     <option value={{a.order_no}} >
@@ -83,9 +83,9 @@
                                             </datalist>
                                         </td>
                                         <td>
-                                            <input class="addRow" type="text"  list="patterns2" @click="selectPattern($event,item)">
+                                            <input class="addRow" type="text"  list="patterns_n" @click="getPATList($event,item)" @change="loadPattern($event,item)">
                                             <!--花型的下拉列表-->
-                                            <datalist id="patterns2">
+                                            <datalist id="patterns_n">
                                                 <template v-for="item in patterns_n">
                                                     <option value={{item.pattern}}>
                                                 </template>
@@ -94,7 +94,7 @@
                                         <td><input class="addRow" type="number" v-model="item.pieces" ></td>
                                         <td><input class="addRow" type="number" v-model="item.trips" ></td>
                                         <td>
-                                            <input class="addRow" type="text"  list="users" @change="selectUser($event,item)">
+                                            <input class="addRow" type="text"  list="users" @change="loadUser($event,item)">
                                             <datalist id="users">
                                                 <template v-for="c in users">
                                                     <option value={{c.user_name}}>
